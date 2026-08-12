@@ -1,0 +1,173 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-lg);
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  cursor: pointer;
+  box-shadow: var(--shadow-sm);
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--accent-light);
+}
+
+/* Photo */
+.photoWrap {
+  position: relative;
+  width: 100%;
+  padding-bottom: 75%;
+  overflow: hidden;
+  background: linear-gradient(135deg, var(--accent-pale), var(--accent-light));
+}
+
+.photo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.card:hover .photo {
+  transform: scale(1.06);
+}
+
+.photoOverlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to top, rgba(43,58,44,0.3) 0%, transparent 60%);
+  transition: opacity 0.3s ease;
+  opacity: 0;
+}
+
+.card:hover .photoOverlay {
+  opacity: 1;
+}
+
+/* Content */
+.content {
+  padding: 1.1rem 1.2rem 1.3rem;
+  flex: 1;
+}
+
+.badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-bottom: 0.65rem;
+}
+
+.name {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--text-primary);
+  margin-bottom: 0.1rem;
+  line-height: 1.2;
+}
+
+.fullName {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 0.55rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.hometown {
+  display: flex;
+  align-items: center;
+  gap: 0.3rem;
+  font-size: 0.82rem;
+  color: var(--text-secondary);
+  margin-bottom: 0.65rem;
+  font-family: 'Inter', sans-serif;
+}
+
+.bio {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  line-height: 1.55;
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  margin-bottom: 0.7rem;
+}
+
+.instagram {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.2rem;
+  font-size: 0.8rem;
+  color: var(--accent);
+  font-weight: 600;
+  font-family: 'Outfit', sans-serif;
+}
+
+.igIcon {
+  font-weight: 800;
+}
+
+/* Arrow */
+.arrow {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 2rem;
+  height: 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255,255,255,0.9);
+  border-radius: 50%;
+  font-size: 0.9rem;
+  color: var(--accent);
+  opacity: 0;
+  transform: translateX(-6px);
+  transition: all 0.25s ease;
+  box-shadow: var(--shadow-sm);
+}
+
+.card:hover .arrow {
+  opacity: 1;
+  transform: translateX(0);
+}
+
+/* Compact variant */
+.compact .photoWrap {
+  padding-bottom: 60%;
+}
+
+.compact .content {
+  padding: 0.85rem 1rem 1rem;
+}
+
+.compact .name {
+  font-size: 1rem;
+}
+
+/* Custom styling for Supabase version */
+.sagePill {
+  background-color: var(--accent-pale);
+  color: var(--accent-dark);
+  border: 1px solid rgba(43, 58, 44, 0.1);
+}
+
+.deepMatcha {
+  color: var(--accent-dark);
+}
+
+.pinIcon {
+  color: var(--accent);
+  margin-top: -1px;
+}
+

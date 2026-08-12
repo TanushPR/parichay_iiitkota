@@ -1,0 +1,234 @@
+.page {
+  min-height: 100vh;
+}
+
+.header {
+  background: var(--text-primary);
+  padding: 3rem 0 2.5rem;
+  position: relative;
+  overflow: hidden;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 40px;
+  background: var(--bg-primary);
+  border-radius: 50% 50% 0 0 / 20px 20px 0 0;
+}
+
+.headerInner {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 2rem;
+}
+
+.title {
+  font-size: clamp(1.8rem, 4vw, 3rem);
+  color: #fff;
+  font-weight: 900;
+  margin-bottom: 0.4rem;
+}
+
+.subtitle {
+  color: rgba(255,255,255,0.65);
+  font-size: 1rem;
+}
+
+.headerStats {
+  flex-shrink: 0;
+}
+
+.statPill {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255,255,255,0.1);
+  border: 1px solid rgba(255,255,255,0.15);
+  border-radius: var(--radius-full);
+  padding: 0.5rem 1.1rem;
+}
+
+.statNum {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.5rem;
+  font-weight: 900;
+  color: var(--accent-light);
+}
+
+.statTxt {
+  font-size: 0.85rem;
+  color: rgba(255,255,255,0.6);
+}
+
+/* Search */
+.searchWrap {
+  margin-bottom: 1.5rem;
+}
+
+.searchBox {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  left: 1.1rem;
+  font-size: 1rem;
+  pointer-events: none;
+  z-index: 1;
+}
+
+.searchInput {
+  padding-left: 2.8rem;
+  padding-right: 2.8rem;
+  background: rgba(255,255,255,0.95);
+  border-color: rgba(255,255,255,0.3);
+  font-size: 1rem;
+  height: 3rem;
+  border-radius: var(--radius-xl);
+}
+
+.searchInput:focus {
+  background: #fff;
+  border-color: var(--accent-light);
+  box-shadow: 0 0 0 3px rgba(178, 201, 173, 0.4);
+}
+
+.clearSearch {
+  position: absolute;
+  right: 1rem;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: rgba(43,58,44,0.5);
+  font-size: 0.9rem;
+  padding: 0.2rem;
+  transition: color 0.2s;
+}
+
+.clearSearch:hover { color: var(--text-primary); }
+
+/* Filters */
+.filters {
+  display: flex;
+  align-items: center;
+  gap: 1.5rem;
+  flex-wrap: wrap;
+}
+
+.filterGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+}
+
+.filterLabel {
+  font-family: 'Outfit', sans-serif;
+  font-size: 0.82rem;
+  font-weight: 700;
+  color: rgba(255,255,255,0.6);
+  letter-spacing: 0.05em;
+  white-space: nowrap;
+}
+
+.filterPills {
+  display: flex;
+  gap: 0.35rem;
+  flex-wrap: wrap;
+}
+
+.pill {
+  font-family: 'Outfit', sans-serif;
+  font-weight: 600;
+  font-size: 0.82rem;
+  padding: 0.3rem 0.85rem;
+  border-radius: var(--radius-full);
+  border: 1.5px solid rgba(255,255,255,0.2);
+  background: transparent;
+  color: rgba(255,255,255,0.7);
+  cursor: pointer;
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.pill:hover {
+  border-color: var(--accent-light);
+  color: var(--accent-light);
+  background: rgba(178, 201, 173, 0.1);
+}
+
+.pillActive {
+  background: var(--accent-light);
+  color: var(--text-primary) !important;
+  border-color: var(--accent-light) !important;
+}
+
+.clearBtn {
+  font-size: 0.82rem;
+  padding: 0.3rem 0.85rem;
+  border-color: rgba(255,255,255,0.2);
+  color: rgba(255,255,255,0.6);
+}
+
+.clearBtn:hover {
+  border-color: rgba(255,255,255,0.5);
+  color: #fff;
+  background: rgba(255,255,255,0.1);
+}
+
+/* Grid */
+.grid {
+  padding-top: 3rem;
+  display: grid;
+  grid-template-columns: repeat(1, 1fr);
+  gap: 2rem;
+}
+
+@media (min-width: 640px) {
+  .grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* Empty State */
+.empty {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 1rem;
+  padding: 6rem 2rem;
+  text-align: center;
+}
+
+.emptyEmoji { font-size: 3rem; }
+
+.emptyTitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1.4rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.emptyDesc {
+  color: var(--text-secondary);
+  max-width: 360px;
+}
+
+@media (max-width: 768px) {
+  .filters { flex-direction: column; align-items: flex-start; }
+}

@@ -1,0 +1,111 @@
+.page { min-height: 100vh; padding-bottom: 5rem; }
+
+.header {
+  padding: 1.25rem 0 1.25rem;
+  background: var(--bg-primary);
+  border-bottom: 1px solid var(--border);
+}
+
+.title {
+  font-size: clamp(2rem, 4vw, 3rem);
+  font-weight: 900;
+  color: var(--text-primary);
+  margin: 0;
+}
+
+.mapOuter {
+  padding: 2.5rem 0;
+}
+
+.mapCard {
+  border: 1px solid var(--border);
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-md);
+}
+
+.mapImage {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.mapWrapper {
+  position: relative;
+  width: 100%;
+}
+
+.mapPin {
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  background-color: var(--accent);
+  border: 2px solid #fff;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+  transition: all 0.2s ease;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.mapPin:hover {
+  transform: translate(-50%, -50%) scale(1.15);
+  background-color: var(--accent-dark);
+}
+
+.pinIcon {
+  font-size: 0.9rem;
+}
+
+.popup {
+  position: absolute;
+  bottom: 140%; /* Above the pin */
+  left: 50%;
+  transform: translateX(-50%);
+  background: white;
+  border-radius: 12px;
+  padding: 1rem;
+  width: 220px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+  z-index: 20;
+  text-align: center;
+  pointer-events: auto;
+  animation: fadeIn 0.2s ease;
+}
+
+.popup::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 50%;
+  transform: translateX(-50%);
+  border-width: 8px 8px 0;
+  border-style: solid;
+  border-color: white transparent transparent transparent;
+  display: block;
+  width: 0;
+}
+
+.popupTitle {
+  font-family: 'Outfit', sans-serif;
+  font-size: 1rem;
+  font-weight: 800;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.popupDesc {
+  font-size: 0.85rem;
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+  line-height: 1.4;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translate(-50%, 10px); }
+  to { opacity: 1; transform: translate(-50%, 0); }
+}
