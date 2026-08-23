@@ -1,22 +1,29 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
+import { cache } from 'react';
 import { supabase } from '@/lib/supabase';
 import ShareButton from '@/components/ShareButton';
 import styles from './page.module.css';
+
+export const revalidate = 120;
 
 interface Props {
   params: Promise<{ id: string }>;
 }
 
-export async function generateMetadata({ params }: Props): Promise<Metadata> {
-  const { id } = await params;
-  
+const getStudent = cache(async (id: string) => {
   const { data: student } = await supabase
     .from('students')
     .select('*')
     .eq('id', id)
     .single();
+  return student;
+});
+
+export async function generateMetadata({ params }: Props): Promise<Metadata> {
+  const { id } = await params;
+  const student = await getStudent(id);
 
   if (!student) return { title: 'Student Not Found' };
   
@@ -26,19 +33,29 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
   };
 }
 
+const GraduationCap = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 3 9 3 12 0v-5"/></svg>;
+const Calendar = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>;
+const MapPin = () => <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"/><circle cx="12" cy="10" r="3"/></svg>;
+
+function InfoRow({ icon: Icon, label, value }: { icon: any, label: string, value: string }) {
+  return (
+    <div className={styles.infoRow}>
+      <div className={styles.infoIcon}><Icon /></div>
+      <div>
+        <div className={styles.infoLabel}>{label}</div>
+        <div className={styles.infoValue}>{value}</div>
+      </div>
+    </div>
+  );
+}
+
 export default async function ProfilePage({ params }: Props) {
   const { id } = await params;
   
-  const { data: student } = await supabase
-    .from('students')
-    .select('*')
-    .eq('id', id)
-    .single();
+  const student = await getStudent(id);
 
   if (!student) notFound();
 
-  // Parse clubs if they are stored as JSON/text, or default to an empty array if missing
-  // Assuming a `clubs` array column exists, if it's text we could JSON.parse, but let's assume it's array or string
   let clubsList: string[] = [];
   if (Array.isArray(student.clubs)) {
     clubsList = student.clubs;
@@ -50,19 +67,16 @@ export default async function ProfilePage({ params }: Props) {
     }
   }
 
-  // Fallback photo
   const photoUrl = student.photo_url || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(student.name)}&backgroundColor=b6e3f4`;
 
   return (
     <div className={styles.page}>
-      {/* Back */}
       <div className="container">
         <Link href="/directory" className={styles.backLink}>
           ← Back to Directory
         </Link>
       </div>
 
-      {/* Profile Hero */}
       <div className={styles.profileHero}>
         <div className={styles.bgAccent} />
         <div className="container">
@@ -77,48 +91,17 @@ export default async function ProfilePage({ params }: Props) {
                 />
                 <div className={styles.photoRing} />
               </div>
-              {/* Quick Stats */}
-              <div className={styles.quickStats}>
-                <div className={styles.quickStat}>
-                  <span className={styles.qsIcon}>🏛️</span>
-                  <div>
-                    <span className={styles.qsLabel}>Branch</span>
-                    <span className={styles.qsValue}>{student.branch}</span>
-                  </div>
-                </div>
-                <div className={styles.quickStat}>
-                  <span className={styles.qsIcon}>📅</span>
-                  <div>
-                    <span className={styles.qsLabel}>Batch</span>
-                    <span className={styles.qsValue}>Class of {student.batch_year}</span>
-                  </div>
-                </div>
-                <div className={styles.quickStat}>
-                  <span className={styles.qsIcon}>📍</span>
-                  <div>
-                    <span className={styles.qsLabel}>Hometown</span>
-                    <span className={styles.qsValue}>{student.hometown}</span>
-                  </div>
-                </div>
-              </div>
             </div>
 
             {/* Info Column */}
             <div className={styles.infoCol}>
-              {/* Badges */}
-              <div className={`flex gap-2 flex-wrap ${styles.profileBadges}`}>
-                <span className={`badge badge-green`} style={{ backgroundColor: 'var(--accent-pale)', color: 'var(--accent-dark)' }}>
-                  {student.branch}
-                </span>
-                <span className={`badge badge-green`} style={{ backgroundColor: 'var(--accent-pale)', color: 'var(--accent-dark)' }}>
-                  Batch of {student.batch_year}
-                </span>
-                <span className="badge badge-green" style={{ backgroundColor: 'var(--accent-pale)', color: 'var(--accent-dark)' }}>
-                  📍 {student.hometown}
-                </span>
-              </div>
-
               <h1 className={styles.name}>{student.name}</h1>
+              
+              <div className={styles.infoRows}>
+                <InfoRow icon={GraduationCap} label="Branch" value={student.branch} />
+                <InfoRow icon={Calendar} label="Batch" value={`Class of ${student.batch_year}`} />
+                <InfoRow icon={MapPin} label="Hometown" value={student.hometown} />
+              </div>
 
               {/* Bio */}
               <div className={styles.bioSection}>

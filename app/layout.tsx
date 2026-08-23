@@ -4,6 +4,7 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://parichay.app'),
   title: {
     default: 'Parichay — Meet the Juniors',
     template: '%s | Parichay',
@@ -28,10 +29,10 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
+    <html lang="en" data-scroll-behavior="smooth" style={{ scrollBehavior: 'smooth' }}>
       <body>
         <Navbar />
-        <main style={{ paddingTop: '72px' }}>
+        <main className="page-wrapper" style={{ paddingTop: '72px' }}>
           {children}
         </main>
         <Footer />

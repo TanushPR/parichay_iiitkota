@@ -1,15 +1,16 @@
 'use client';
 
+import { FaInstagram } from 'react-icons/fa';
 import { formatImageUrl } from '@/lib/utils';
 import styles from './ClubCard.module.css';
 
 const CATEGORY_COLORS: Record<string, string> = {
-  Technical:  'badge-blue',
-  Cultural:   'badge-purple',
-  Sports:     'badge-warm',
-  Social:     'badge-sage',
-  Literary:   'badge-yellow',
-  Music:      'badge-pink',
+  Technical:  '#3B82F6',
+  Cultural:   '#7C5CD6',
+  Sports:     '#F59E0B',
+  Social:     '#10B981',
+  Literary:   '#EAB308',
+  Music:      '#EC4899',
 };
 
 export interface SupabaseClub {
@@ -28,68 +29,59 @@ interface ClubCardProps {
 }
 
 export default function ClubCard({ club }: ClubCardProps) {
+  const tone = CATEGORY_COLORS[club.category] || '#7C5CD6';
+  
   return (
-    <div className={styles.card}>
-      <div className={styles.logoWrap} style={{ display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+    <div className={styles.card} style={{ '--card-tone': tone } as React.CSSProperties}>
+      {/* Top accent */}
+      <div className={styles.accentBar} style={{ background: tone }} />
+
+      <div className={styles.logoWrap}>
         {club.logo_url ? (
-          <>
-            {/* eslint-disable-next-line @next/next/no-img-element */}
-            <img 
-              src={formatImageUrl(club.logo_url)} 
-              alt={club.name} 
-              style={{ width: '100%', height: '100%', borderRadius: '50%', objectFit: 'cover' }}
-              onError={(e) => {
-                // Fallback to initial avatar if link is broken or restricted
-                e.currentTarget.style.display = 'none';
-                if (e.currentTarget.nextElementSibling) {
-                  (e.currentTarget.nextElementSibling as HTMLElement).style.display = 'flex';
-                }
-              }}
-            />
-            <span className={styles.logo} style={{ display: 'none' }}>🏆</span>
-          </>
-        ) : (
-          <span className={styles.logo}>🏆</span>
-        )}
+          // eslint-disable-next-line @next/next/no-img-element
+          <img 
+            src={formatImageUrl(club.logo_url)} 
+            alt={club.name} 
+            className={styles.logoImg}
+            onError={(e) => {
+              e.currentTarget.style.display = 'none';
+              if (e.currentTarget.nextElementSibling) {
+                (e.currentTarget.nextElementSibling as HTMLElement).style.display = 'flex';
+              }
+            }}
+          />
+        ) : null}
+        <span className={styles.logoFallback} style={{ display: club.logo_url ? 'none' : 'flex', color: tone }}>🏆</span>
       </div>
 
-      {/* Header */}
-      <div className={styles.header}>
-        <h3 className={styles.name}>{club.name}</h3>
-        <span className={`badge ${CATEGORY_COLORS[club.category] ?? 'badge-green'}`}>
-          {club.category}
-        </span>
-      </div>
+      <span className={styles.categoryBadge} style={{ background: `${tone}15`, color: tone }}>
+        {club.category}
+      </span>
 
-      {/* Description */}
+      <h3 className={styles.name}>{club.name}</h3>
       <p className={styles.description}>{club.description}</p>
-
-      {/* Actions */}
+      
       <div className={styles.footer}>
-        <div className={styles.actions}>
-          {club.join_link && (
-            <a 
-              href={club.join_link} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="btn btn-primary"
-              style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem' }}
-            >
-              Join Club
-            </a>
-          )}
-          {(club.instagram_handle || club.social_link) && (
-            <a 
-              href={(club.instagram_handle || club.social_link || '').startsWith('http') ? (club.instagram_handle || club.social_link) : `https://instagram.com/${club.instagram_handle || club.social_link}`} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="btn btn-outline"
-              style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem' }}
-            >
-              Instagram ↗
-            </a>
-          )}
-        </div>
+        {(club.instagram_handle || club.social_link) && (
+          <a
+            href={(club.instagram_handle || club.social_link || '').startsWith('http') ? (club.instagram_handle || club.social_link) : `https://instagram.com/${club.instagram_handle || club.social_link}`}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.socialBtn}
+          >
+            <FaInstagram size={14} />
+          </a>
+        )}
+        {club.join_link && (
+          <a 
+            href={club.join_link} 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className={styles.joinBtn}
+          >
+            Join
+          </a>
+        )}
       </div>
     </div>
   );

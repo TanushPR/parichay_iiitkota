@@ -11,8 +11,11 @@ export default function CampusMapPage() {
     <div className={styles.page}>
       {/* Header */}
       <div className={styles.header}>
+        <div className={styles.headerBg} />
         <div className="container">
+          <p className="section-label" style={{ color: 'var(--accent-light)' }}>🗺️ Navigate</p>
           <h1 className={styles.title}>Campus Map</h1>
+          <p className={styles.subtitle}>Explore the IIIT Kota campus master plan and find your way around.</p>
         </div>
       </div>
 

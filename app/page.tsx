@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
-import TeamCard from '@/components/TeamCard';
+import TeamSectionInteractive from '@/components/TeamSectionInteractive';
 import { formatImageUrl } from '@/lib/utils';
 import styles from './page.module.css';
 
@@ -10,28 +10,43 @@ export const metadata: Metadata = {
   description: 'Discover our college\'s junior batch. Search profiles, explore clubs, and navigate campus — all in one place.',
 };
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export default async function HomePage() {
+  let teamMembers: any[] = [];
+  let siteContent: Record<string, string> = {};
+  let clubs: any[] = [];
+  let studentCount: number | null = null;
+  let groupCount: number | null = null;
 
-  // Fetch team members
-  const { data: teamMembersData } = await supabase
-    .from('team_members')
-    .select('*')
-    .order('display_order', { ascending: true });
-  const teamMembers = teamMembersData || [];
+  try {
+    const [teamRes, contentRes, clubsRes, studentCountRes, groupCountRes] = await Promise.allSettled([
+      supabase.from('team_members').select('*').order('display_order', { ascending: true }),
+      supabase.from('site_content').select('*'),
+      supabase.from('clubs').select('*').limit(6),
+      supabase.from('students').select('*', { count: 'exact', head: true }),
+      supabase.from('groups').select('*', { count: 'exact', head: true })
+    ]);
 
-  // Fetch site content
-  const { data: siteContentData } = await supabase.from('site_content').select('*');
-
-  // Fetch clubs
-  const { data: clubsData } = await supabase.from('clubs').select('*').limit(6);
-  const clubs = clubsData || [];
-  const siteContent: Record<string, string> = {};
-  if (siteContentData) {
-    siteContentData.forEach(item => {
-      siteContent[item.key] = item.value;
-    });
+    if (teamRes.status === 'fulfilled' && teamRes.value.data) {
+      teamMembers = teamRes.value.data;
+    }
+    if (contentRes.status === 'fulfilled' && contentRes.value.data) {
+      contentRes.value.data.forEach((item: any) => {
+        siteContent[item.key] = item.value;
+      });
+    }
+    if (clubsRes.status === 'fulfilled' && clubsRes.value.data) {
+      clubs = clubsRes.value.data;
+    }
+    if (studentCountRes.status === 'fulfilled') {
+      studentCount = studentCountRes.value.count;
+    }
+    if (groupCountRes.status === 'fulfilled') {
+      groupCount = groupCountRes.value.count;
+    }
+  } catch (err) {
+    console.error('Error loading homepage data:', err);
   }
 
   const heroTitle = siteContent['home_hero_title'] || 'Meet the Class of 2026';
@@ -42,10 +57,10 @@ export default async function HomePage() {
       {/* ─── Hero ──────────────────────────────────── */}
       <section className={styles.hero}>
         
-        {/* New Decorative Background Overhaul */}
+        {/* Decorative Background */}
         <div className={styles.heroBg}>
-          {/* Constellation Network SVG (Background) */}
-          <svg className="absolute inset-0 w-full h-full" style={{ opacity: 0.25 }} xmlns="http://www.w3.org/200.5/svg">
+          {/* Constellation Network SVG */}
+          <svg className={styles.constellationSvg} xmlns="http://www.w3.org/2000/svg">
             <defs>
               <pattern id="constellation" x="0" y="0" width="200" height="200" patternUnits="userSpaceOnUse">
                 <circle cx="20" cy="20" r="2" fill="#738A56" />
@@ -59,19 +74,6 @@ export default async function HomePage() {
             <rect x="0" y="0" width="100%" height="100%" fill="url(#constellation)" />
           </svg>
 
-          {/* Geometric Grid Corners */}
-          <svg className="absolute top-0 right-0 w-64 h-64 opacity-20" xmlns="http://www.w3.org/200.5/svg">
-            <defs>
-              <pattern id="grid" width="40" height="40" patternUnits="userSpaceOnUse">
-                <path d="M 40 0 L 0 0 0 40" fill="none" stroke="#738A56" strokeWidth="1" />
-              </pattern>
-            </defs>
-            <rect width="100%" height="100%" fill="url(#grid)" />
-          </svg>
-          <svg className="absolute bottom-0 left-0 w-64 h-64 opacity-20" xmlns="http://www.w3.org/200.5/svg">
-            <rect width="100%" height="100%" fill="url(#grid)" />
-          </svg>
-
           {/* Deep Matcha Organic Blobs */}
           <div className={styles.blob1} />
           <div className={styles.blob2} />
@@ -83,31 +85,61 @@ export default async function HomePage() {
 
           {/* Floating Glass Icons */}
           <div className={`${styles.glassIcon} ${styles.icon1}`} title="Graduation Cap">🎓</div>
-          <div className={`${styles.glassIcon} ${styles.icon2}`} title="Graduation Monitor">🖥️</div>
+          <div className={`${styles.glassIcon} ${styles.icon2}`} title="Monitor">🖥️</div>
           <div className={`${styles.glassIcon} ${styles.icon3}`} title="Laptop">💻</div>
-          <div className={`${styles.glassIcon} ${styles.icon4}`} title="Network Hub">🔆</div>
-          <div className={`${styles.glassIcon} ${styles.icon5}`} title="Smiley Face">😀</div>
+          <div className={`${styles.glassIcon} ${styles.icon4}`} title="Network">🔆</div>
+          <div className={`${styles.glassIcon} ${styles.icon5}`} title="Smiley">😀</div>
           <div className={`${styles.glassIcon} ${styles.icon6}`} title="Camera">📸</div>
         </div>
 
         <div className={`container ${styles.heroInner}`}>
           <div className={styles.heroContent}>
             <h1 className={`${styles.heroTitle} animate-fadeInUp delay-100`}>
-              {heroTitle}<br />
+              <span className={styles.heroTitleShimmer}>{heroTitle}</span>
             </h1>
 
             <p className={`${styles.heroDesc} animate-fadeInUp delay-200`}>
               {heroSubtitle}
             </p>
 
-
-            <div className={`flex gap-4 flex-wrap animate-fadeInUp delay-400`} style={{ marginTop: '1rem' }}>
+            <div className={`${styles.heroBtns} animate-fadeInUp delay-400`}>
               <Link href="/directory" className="btn btn-primary btn-lg">
                 Explore Directory →
               </Link>
               <Link href="/clubs" className="btn btn-outline btn-lg">
                 Explore Clubs
               </Link>
+            </div>
+          </div>
+        </div>
+
+        {/* Scroll Down Indicator */}
+        <div className={styles.scrollIndicator}>
+          <span className={styles.scrollText}>Scroll</span>
+          <div className={styles.scrollLine}>
+            <div className={styles.scrollDot} />
+          </div>
+        </div>
+      </section>
+
+      {/* ─── Stats Bar ───────────────────────────────── */}
+      <section className={styles.statsSection}>
+        <div className="container">
+          <div className={styles.statsBar}>
+            <div className={styles.stat}>
+              <span className={styles.statEmoji}>👥</span>
+              <span className={styles.statValue}>{studentCount || '200'}+</span>
+              <span className={styles.statLabel}>Student Profiles</span>
+            </div>
+            <div className={styles.stat}>
+              <span className={styles.statEmoji}>🏆</span>
+              <span className={styles.statValue}>{clubs.length || '20'}+</span>
+              <span className={styles.statLabel}>Active Clubs</span>
+            </div>
+            <div className={styles.stat}>
+              <span className={styles.statEmoji}>💬</span>
+              <span className={styles.statValue}>{groupCount || '15'}+</span>
+              <span className={styles.statLabel}>Communities</span>
             </div>
           </div>
         </div>
@@ -127,22 +159,12 @@ export default async function HomePage() {
             </div>
           </div>
 
-          <div className={styles.teamGrid}>
-            {teamMembers.map((member, i) => (
-              <div
-                key={member.id}
-                className="animate-fadeInUp"
-                style={{ animationDelay: `${i * 0.08}s` }}
-              >
-                <TeamCard member={member} />
-              </div>
-            ))}
-          </div>
+          <TeamSectionInteractive members={teamMembers} />
         </div>
       </section>
 
       {/* ─── Clubs Preview ─────────────────────────── */}
-      <section className="section">
+      <section className={`section ${styles.clubsSection}`}>
         <div className="container">
           <div className={styles.sectionHead}>
             <div>
@@ -164,7 +186,7 @@ export default async function HomePage() {
                 className={`${styles.clubPreviewCard} animate-fadeInUp`}
                 style={{ animationDelay: `${i * 0.08}s` }}
               >
-                <div style={{ width: '45px', height: '45px', display: 'flex', alignItems: 'center', justifyContent: 'center', flexShrink: 0, borderRadius: '8px', overflow: 'hidden', backgroundColor: 'var(--accent-pale, rgba(0,0,0,0.05))' }}>
+                <div className={styles.clubLogoWrap}>
                   {club.logo_url ? (
                     // eslint-disable-next-line @next/next/no-img-element
                     <img 
@@ -180,6 +202,7 @@ export default async function HomePage() {
                   <strong className={styles.clubPreviewName}>{club.name}</strong>
                   <span className={styles.clubPreviewMeta}>{club.category || 'General'}</span>
                 </div>
+                <span className={styles.clubArrow}>→</span>
               </div>
             ))}
           </div>
@@ -190,4 +213,3 @@ export default async function HomePage() {
     </>
   );
 }
-

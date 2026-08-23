@@ -50,7 +50,7 @@ export default function StudentManager() {
 
   const handleAddNew = () => {
     setEditingStudent({
-      name: '', branch: '', batch_year: '', hometown: '', bio: '', photo_url: '', instagram_handle: ''
+      name: '', branch: '', batch_year: 2026, hometown: '', bio: '', photo_url: '', instagram_handle: ''
     });
     setIsModalOpen(true);
   };
@@ -203,7 +203,7 @@ export default function StudentManager() {
                 </div>
                 <div className={styles.formGroup}>
                   <label>Batch Year</label>
-                  <input required type="text" className="input" value={editingStudent.batch_year || ''} onChange={(e) => setEditingStudent({...editingStudent, batch_year: e.target.value})} />
+                  <input required type="number" className="input" value={editingStudent.batch_year || ''} onChange={(e) => setEditingStudent({...editingStudent, batch_year: parseInt(e.target.value) || 2026})} />
                 </div>
                 <div className={styles.formGroup}>
                   <label>Hometown</label>

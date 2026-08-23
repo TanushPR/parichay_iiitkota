@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { getCachedData, setCachedData } from '@/lib/clientCache';
 import GroupCard, { SupabaseGroup } from '@/components/GroupCard';
 import styles from './page.module.css';
 
@@ -9,14 +10,21 @@ const CATEGORIES = ['Official', 'Batch Groups', 'Hostels & Mess', 'Gaming & Hobb
 
 export default function GroupsPage() {
   const [activeCategory, setActiveCategory] = useState('');
-  const [groups, setGroups] = useState<SupabaseGroup[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [groups, setGroups] = useState<SupabaseGroup[]>(() => getCachedData<SupabaseGroup[]>('groups') || []);
+  const [loading, setLoading] = useState(() => !getCachedData<SupabaseGroup[]>('groups'));
 
   useEffect(() => {
     async function fetchGroups() {
+      const cached = getCachedData<SupabaseGroup[]>('groups');
+      if (cached) {
+        setGroups(cached);
+        setLoading(false);
+        return;
+      }
       const { data, error } = await supabase.from('groups').select('*');
       if (data) {
         setGroups(data);
+        setCachedData('groups', data);
       } else if (error) {
         console.error('Error fetching groups:', error);
       }

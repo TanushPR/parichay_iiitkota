@@ -1,102 +1,125 @@
 .card {
-  background: var(--bg-card);
+  background: #fff;
   border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 1.4rem;
+  border-radius: 20px;
+  padding: 28px 24px;
   display: flex;
   flex-direction: column;
-  gap: 0.85rem;
-  box-shadow: var(--shadow-sm);
-  transition: all 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+  align-items: center;
+  text-align: center;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  height: 100%;
   position: relative;
   overflow: hidden;
-  height: 100%;
 }
 
-.card::before {
-  content: '';
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  border-color: var(--accent-light);
+}
+
+/* Top accent bar */
+.accentBar {
   position: absolute;
   top: 0;
   left: 0;
   right: 0;
   height: 3px;
-  background: linear-gradient(90deg, var(--accent), var(--accent-light));
+  border-radius: 20px 20px 0 0;
   transform: scaleX(0);
+  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   transform-origin: left;
-  transition: transform 0.35s ease;
-  border-radius: var(--radius-lg) var(--radius-lg) 0 0;
 }
 
-.card:hover {
-  transform: translateY(-5px);
-  box-shadow: var(--shadow-hover);
-  border-color: var(--accent-light);
-}
-
-.card:hover::before {
+.card:hover .accentBar {
   transform: scaleX(1);
 }
 
-/* Logo */
-.logoWrap {
-  width: 3.2rem;
-  height: 3.2rem;
-  background: var(--accent-pale);
-  border-radius: var(--radius-md);
+/* Icon */
+.iconWrap {
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  border: 2px solid;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 1.6rem;
-  flex-shrink: 0;
-  transition: transform 0.3s ease;
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  background: var(--bg-primary);
 }
 
-.card:hover .logoWrap {
-  transform: rotate(-8deg) scale(1.1);
+.card:hover .iconWrap {
+  transform: scale(1.08) rotate(-5deg);
+  box-shadow: 0 4px 16px rgba(115, 138, 86, 0.15);
 }
 
-.logo { line-height: 1; }
-
-/* Header */
-.header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.5rem;
-  flex-wrap: wrap;
+.iconEmoji {
+  font-size: 28px;
 }
 
+/* Category Badge */
+.categoryBadge {
+  font-family: 'Outfit', sans-serif;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.4px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  text-transform: uppercase;
+  margin-bottom: 14px;
+}
+
+/* Name */
 .name {
   font-family: 'Outfit', sans-serif;
-  font-size: 1.1rem;
+  font-size: 17px;
   font-weight: 800;
   color: var(--text-primary);
-  line-height: 1.2;
+  margin-bottom: 10px;
+  line-height: 1.3;
 }
 
 /* Description */
 .description {
-  font-size: 0.875rem;
+  font-size: 13.5px;
   color: var(--text-secondary);
   line-height: 1.6;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  flex: 1;
+  margin-bottom: 18px;
+  flex-grow: 1;
 }
 
 /* Footer */
 .footer {
   display: flex;
-  flex-direction: column;
-  gap: 0.5rem;
-  border-top: 1px solid var(--border);
-  padding-top: 0.85rem;
+  gap: 8px;
+  justify-content: center;
   margin-top: auto;
 }
 
-.actions {
+.linkBtn {
+  height: 36px;
+  border-radius: 18px;
+  border: 1.5px solid var(--text-primary);
+  padding: 0 16px;
   display: flex;
-  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  color: var(--text-primary);
+  font-family: 'Outfit', sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  text-decoration: none;
+  transition: all 0.25s ease;
+}
+
+.linkBtn:hover {
+  background: var(--text-primary);
+  color: #fff;
+  transform: scale(1.05);
 }

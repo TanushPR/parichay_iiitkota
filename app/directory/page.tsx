@@ -4,37 +4,45 @@ import { useState, useMemo, useEffect } from 'react';
 import StudentCard, { SupabaseStudent } from '@/components/StudentCard';
 import { BRANCHES } from '@/lib/mockData';
 import { supabase } from '@/lib/supabase';
+import { getCachedData, setCachedData } from '@/lib/clientCache';
 import styles from './page.module.css';
 
 export default function DirectoryPage() {
-  const [students, setStudents] = useState<SupabaseStudent[]>([]);
-  const [subtitleTemplate, setSubtitleTemplate] = useState('Search {total} student profiles by name, branch, batch, or hometown.');
-  const [loading, setLoading] = useState(true);
+  const [students, setStudents] = useState<SupabaseStudent[]>(() => getCachedData<SupabaseStudent[]>('students') || []);
+  const [subtitleTemplate, setSubtitleTemplate] = useState(() => getCachedData<string>('directory_subtitle') || 'Search {total} student profiles by name, branch, batch, or hometown.');
+  const [loading, setLoading] = useState(() => !getCachedData<SupabaseStudent[]>('students'));
   const [query, setQuery] = useState('');
   const [branch, setBranch] = useState('');
-  const [batchYear, setBatchYear] = useState('');
 
   useEffect(() => {
     async function fetchData() {
-      const { data, error } = await supabase
-        .from('students')
-        .select('*');
-      
-      if (error) {
-        console.error('Error fetching students:', error);
-      } else {
-        setStudents(data || []);
+      const cachedStudents = getCachedData<SupabaseStudent[]>('students');
+      const cachedSubtitle = getCachedData<string>('directory_subtitle');
+
+      if (!cachedStudents) {
+        const { data, error } = await supabase
+          .from('students')
+          .select('*');
+        
+        if (error) {
+          console.error('Error fetching students:', error);
+        } else if (data) {
+          setStudents(data);
+          setCachedData('students', data);
+        }
       }
 
-      // Fetch directory subtitle
-      const { data: contentData } = await supabase
-        .from('site_content')
-        .select('value')
-        .eq('key', 'directory_subtitle')
-        .single();
-      
-      if (contentData && contentData.value) {
-        setSubtitleTemplate(contentData.value);
+      if (!cachedSubtitle) {
+        const { data: contentData } = await supabase
+          .from('site_content')
+          .select('value')
+          .eq('key', 'directory_subtitle')
+          .single();
+        
+        if (contentData && contentData.value) {
+          setSubtitleTemplate(contentData.value);
+          setCachedData('directory_subtitle', contentData.value);
+        }
       }
 
       setLoading(false);
@@ -48,19 +56,17 @@ export default function DirectoryPage() {
         (s.name && s.name.toLowerCase().includes(query.toLowerCase())) ||
         (s.hometown && s.hometown.toLowerCase().includes(query.toLowerCase()));
       const matchesBranch = !branch || (s.branch && s.branch.toLowerCase().trim() === branch.toLowerCase().trim());
-      const matchesBatch = !batchYear || (s.batch_year && s.batch_year.toString() === batchYear);
       
-      return matchesQuery && matchesBranch && matchesBatch;
+      return matchesQuery && matchesBranch;
     });
-  }, [students, query, branch, batchYear]);
+  }, [students, query, branch]);
 
   const clearFilters = () => {
     setQuery('');
     setBranch('');
-    setBatchYear('');
   };
 
-  const hasFilters = query || branch || batchYear;
+  const hasFilters = query || branch;
 
   return (
     <div className={styles.page}>
@@ -130,27 +136,6 @@ export default function DirectoryPage() {
                     onClick={() => setBranch(branch === b ? '' : b)}
                   >
                     {b}
-                  </button>
-                ))}
-              </div>
-            </div>
-
-            <div className={styles.filterGroup}>
-              <span className={styles.filterLabel}>Batch:</span>
-              <div className={styles.filterPills}>
-                <button
-                  className={`${styles.pill} ${!batchYear ? styles.pillActive : ''}`}
-                  onClick={() => setBatchYear('')}
-                >
-                  All
-                </button>
-                {['2029', '2030'].map(y => (
-                  <button
-                    key={y}
-                    className={`${styles.pill} ${batchYear === y ? styles.pillActive : ''}`}
-                    onClick={() => setBatchYear(batchYear === y ? '' : y)}
-                  >
-                    {y}
                   </button>
                 ))}
               </div>

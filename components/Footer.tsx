@@ -22,10 +22,15 @@ export default function Footer() {
       <div className={`container ${styles.inner}`}>
         {/* Brand */}
         <div className={styles.brand}>
-          <Link href="/" className={styles.logo}>
+          <a 
+            href="https://www.instagram.com/parichay_iiitkota/" 
+            target="_blank" 
+            rel="noopener noreferrer" 
+            className={styles.logo}
+          >
             <img src="/logo.png" alt="Parichay IIIT Kota" className={styles.logoImg} />
             <span className={styles.logoText}>Parichay</span>
-          </Link>
+          </a>
           <p className={styles.tagline}>
             From Google Form to Instagram Grid — and now, a searchable college hub.
             Built with 💚 by the student community.

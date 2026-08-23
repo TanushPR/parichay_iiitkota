@@ -1,12 +1,13 @@
 'use client';
 
+import { FaWhatsapp } from 'react-icons/fa';
 import styles from './GroupCard.module.css';
 
-const PLATFORM_COLORS: Record<string, string> = {
-  whatsapp: '#25D366',
-  discord: '#5865F2',
-  telegram: '#0088cc',
-  link: 'var(--accent)',
+const CATEGORY_COLORS: Record<string, string> = {
+  'Official': '#10B981',
+  'Batch Groups': '#3B82F6',
+  'Hostels & Mess': '#F59E0B',
+  'Gaming & Hobbies': '#7C5CD6',
 };
 
 const PLATFORM_ICONS: Record<string, string> = {
@@ -14,13 +15,6 @@ const PLATFORM_ICONS: Record<string, string> = {
   discord: '👾',
   telegram: '✈️',
   link: '🔗',
-};
-
-const CATEGORY_COLORS: Record<string, string> = {
-  'Official': 'badge-sage',
-  'Batch Groups': 'badge-blue',
-  'Hostels & Mess': 'badge-warm',
-  'Gaming & Hobbies': 'badge-purple',
 };
 
 export interface SupabaseGroup {
@@ -38,38 +32,36 @@ interface GroupCardProps {
 }
 
 export default function GroupCard({ group }: GroupCardProps) {
-  const icon = PLATFORM_ICONS[group.icon_type?.toLowerCase()] || PLATFORM_ICONS['link'];
-  const color = PLATFORM_COLORS[group.icon_type?.toLowerCase()] || PLATFORM_COLORS['link'];
+  const tone = CATEGORY_COLORS[group.category] || '#7C5CD6';
+  const emojiIcon = PLATFORM_ICONS[group.icon_type?.toLowerCase()] || PLATFORM_ICONS['link'];
 
   return (
-    <div className={styles.card}>
-      <div className={styles.logoWrap} style={{ color }}>
-        <span className={styles.logo}>{icon}</span>
+    <div className={styles.card} style={{ '--card-tone': tone } as React.CSSProperties}>
+      <div className={styles.accentBar} style={{ background: tone }} />
+
+      <div className={styles.iconWrap} style={{ borderColor: `${tone}55` }}>
+        <span className={styles.iconEmoji}>{emojiIcon}</span>
       </div>
 
-      <div className={styles.header}>
-        <h3 className={styles.name}>{group.title}</h3>
-        <span className={`badge ${CATEGORY_COLORS[group.category] || 'badge-green'}`}>
-          {group.category}
-        </span>
-      </div>
+      <span className={styles.categoryBadge} style={{ background: `${tone}15`, color: tone }}>
+        {group.category}
+      </span>
 
+      <h3 className={styles.name}>{group.title}</h3>
       <p className={styles.description}>{group.description}</p>
-
+      
       <div className={styles.footer}>
-        <div className={styles.actions}>
-          {group.link && (
-            <a 
-              href={group.link} 
-              target="_blank" 
-              rel="noopener noreferrer" 
-              className="btn btn-primary"
-              style={{ padding: '0.4rem 0.8rem', fontSize: '0.8rem', width: '100%', textAlign: 'center' }}
-            >
-              Join Group ↗
-            </a>
-          )}
-        </div>
+        {group.link && (
+          <a
+            href={group.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={styles.linkBtn}
+          >
+            <FaWhatsapp size={14} />
+            <span>Open</span>
+          </a>
+        )}
       </div>
     </div>
   );

@@ -1,33 +1,100 @@
 .page { min-height: 100vh; padding-bottom: 5rem; }
 
+/* Header — dark, matching other pages */
 .header {
-  padding: 1.25rem 0 1.25rem;
+  position: relative;
+  background: var(--text-primary);
+  padding: 3.5rem 0 2.5rem;
+  overflow: hidden;
+}
+
+.headerBg {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(ellipse at 60% 40%, rgba(115, 138, 86, 0.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* Animated dot pattern */
+.header::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, rgba(178, 201, 173, 0.1) 1px, transparent 1px);
+  background-size: 28px 28px;
+  pointer-events: none;
+}
+
+.header::after {
+  content: '';
+  position: absolute;
+  bottom: -1px;
+  left: 0;
+  right: 0;
+  height: 40px;
   background: var(--bg-primary);
-  border-bottom: 1px solid var(--border);
+  border-radius: 50% 50% 0 0 / 20px 20px 0 0;
 }
 
 .title {
   font-size: clamp(2rem, 4vw, 3rem);
   font-weight: 900;
-  color: var(--text-primary);
-  margin: 0;
+  color: #fff;
+  margin: 0.4rem 0;
+  position: relative;
+  z-index: 1;
+}
+
+.subtitle {
+  color: rgba(255,255,255,0.65);
+  font-size: 1rem;
+  max-width: 500px;
+  position: relative;
+  z-index: 1;
 }
 
 .mapOuter {
-  padding: 2.5rem 0;
+  padding: 3rem 0;
 }
 
 .mapCard {
   border: 1px solid var(--border);
   border-radius: var(--radius-xl);
   overflow: hidden;
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
+  transition: all 0.4s cubic-bezier(0.22, 1, 0.36, 1);
+  position: relative;
+}
+
+.mapCard::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: calc(var(--radius-xl) + 2px);
+  background: linear-gradient(135deg, var(--accent-light), var(--accent), var(--accent-light));
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.mapCard:hover {
+  box-shadow: 0 20px 60px rgba(43, 58, 44, 0.15);
+  transform: translateY(-4px);
+}
+
+.mapCard:hover::before {
+  opacity: 1;
 }
 
 .mapImage {
   width: 100%;
   height: auto;
   display: block;
+  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.mapCard:hover .mapImage {
+  transform: scale(1.02);
 }
 
 .mapWrapper {
@@ -63,7 +130,7 @@
 
 .popup {
   position: absolute;
-  bottom: 140%; /* Above the pin */
+  bottom: 140%;
   left: 50%;
   transform: translateX(-50%);
   background: white;
@@ -74,7 +141,12 @@
   z-index: 20;
   text-align: center;
   pointer-events: auto;
-  animation: fadeIn 0.2s ease;
+  animation: popIn 0.25s ease;
+}
+
+@keyframes popIn {
+  from { opacity: 0; transform: translateX(-50%) translateY(8px) scale(0.95); }
+  to { opacity: 1; transform: translateX(-50%) translateY(0) scale(1); }
 }
 
 .popup::after {
@@ -103,9 +175,4 @@
   color: var(--text-secondary);
   margin-bottom: 1rem;
   line-height: 1.4;
-}
-
-@keyframes fadeIn {
-  from { opacity: 0; transform: translate(-50%, 10px); }
-  to { opacity: 1; transform: translate(-50%, 0); }
 }

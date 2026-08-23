@@ -1,36 +1,125 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Parichay 🎓
+
+A centralized campus directory and community platform built for colleges to help incoming and existing batches discover fellow students, explore societies & clubs, find official batch groups, and navigate campus life.
+
+---
+
+## Features
+
+- **Student Directory (`/directory`)**: Search and filter student profiles by name, branch, hometown, or batch year.
+- **Student Profile Pages (`/student/[id]`)**: Detailed individual student profile cards with bios, club affiliations, social links, and shareable URLs.
+- **Clubs & Societies (`/clubs`)**: Categorized directory of college clubs, technical societies, cultural bodies, and sports teams with active links and recruitment details.
+- **Peer & Batch Groups (`/groups`)**: Verified directory of WhatsApp, Telegram, and Discord groups for batches, departments, and hostels.
+- **Interactive Campus Map (`/map`)**: Guide to academic blocks, hostels, cafeterias, and key campus spots.
+- **Team / About Page (`/about`)**: Team member showcase with an interactive member viewer.
+- **Admin Portal (`/admin`)**: Internal management dashboard to perform CRUD operations on students, clubs, groups, team members, and site copy (CMS).
+
+---
+
+## Tech Stack
+
+- **Framework**: [Next.js 16](https://nextjs.org/) (App Router, Server Components + ISR)
+- **Frontend Library**: [React 19](https://react.dev/)
+- **Styling**: Vanilla CSS Modules with custom theme variables
+- **Database & Auth**: [Supabase](https://supabase.com/) (PostgreSQL + PostgREST)
+- **Icons**: [Lucide React](https://lucide.dev/) & [React Icons](https://react-icons.github.io/react-icons/)
+- **Language**: TypeScript
+
+---
+
+## Project Structure
+
+```text
+parichay/
+├── app/
+│   ├── about/              # About page & team showcase
+│   ├── admin/              # CMS & data management dashboards
+│   │   ├── clubs/          # Club management
+│   │   ├── cms/            # Dynamic homepage & page copy settings
+│   │   ├── groups/         # Group links management
+│   │   ├── students/       # Student record management
+│   │   └── team/           # Core team member management
+│   ├── clubs/              # Clubs & societies directory
+│   ├── directory/          # Searchable student directory
+│   ├── groups/             # Community & batch group links
+│   ├── map/                # Campus map and location highlights
+│   ├── student/[id]/       # Dynamic individual student profiles
+│   ├── globals.css         # Global styling & CSS custom properties
+│   ├── layout.tsx          # Root layout with Navbar and Footer
+│   └── page.tsx            # Homepage with hero, stats, and highlights
+├── components/             # Reusable UI components (Cards, Navbar, Footer, etc.)
+├── lib/
+│   ├── clientCache.ts      # Client-side in-memory cache with TTL
+│   ├── mockData.ts         # Fallback data & branch constants
+│   ├── supabase.ts         # Supabase client initialization
+│   └── utils.ts            # Formatting & utility helpers
+└── public/                 # Static assets and images
+```
+
+---
 
 ## Getting Started
 
-First, run the development server:
+### 1. Prerequisites
+
+- Node.js 18.18+ or Node.js 20+
+- npm, yarn, or pnpm
+
+### 2. Clone and Install Dependencies
+
+```bash
+git clone <your-repo-url>
+cd parichay-main
+npm install
+```
+
+### 3. Environment Variables
+
+Create a `.env.local` file in the root directory and add your Supabase credentials:
+
+```env
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
+
+### 4. Run Development Server
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open [http://localhost:3000](http://localhost:3000) in your browser.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+---
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Database Tables (Supabase)
 
-## Learn More
+The application expects the following tables in your Supabase database:
 
-To learn more about Next.js, take a look at the following resources:
+1. `students`: `id`, `name`, `branch`, `batch_year`, `hometown`, `bio`, `avatar_url`, `instagram`, `linkedin`, `github`, `clubs` (array)
+2. `clubs`: `id`, `name`, `category`, `description`, `logo_url`, `instagram`, `website`, `member_count`
+3. `groups`: `id`, `name`, `category`, `description`, `link`, `platform`
+4. `team_members`: `id`, `name`, `role`, `image_url`, `linkedin`, `github`, `display_order`
+5. `site_content`: `key` (text, primary key), `value` (text)
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+---
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Production Build
 
-## Deploy on Vercel
+To build and test the production bundle locally:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+```bash
+npm run build
+npm run start
+```
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+---
+
+## Deployment
+
+The easiest way to deploy this project is via [Vercel](https://vercel.com/):
+
+1. Push your repository to GitHub / GitLab.
+2. Import the project into Vercel.
+3. Configure `NEXT_PUBLIC_SUPABASE_URL` and `NEXT_PUBLIC_SUPABASE_ANON_KEY` under **Project Settings > Environment Variables**.
+4. Deploy.

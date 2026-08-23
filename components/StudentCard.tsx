@@ -20,64 +20,58 @@ interface StudentCardProps {
   compact?: boolean;
 }
 
+const InstagramIcon = () => (
+  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+  </svg>
+);
+
 export default function StudentCard({ student, compact = false }: StudentCardProps) {
-  // Smooth fallback avatar if missing
   const formattedUrl = formatImageUrl(student.photo_url);
   const photoUrl = formattedUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(student.name)}&backgroundColor=b6e3f4`;
+  const igHandle = student.instagram_handle || '';
+  const igLink = igHandle.startsWith('http') ? igHandle : `https://instagram.com/${igHandle}`;
 
   return (
     <Link href={`/student/${student.id}`} className={`${styles.card} ${compact ? styles.compact : ''}`}>
-      {/* Photo */}
       <div className={styles.photoWrap}>
         <img
           src={photoUrl}
           alt={student.name}
           className={styles.photo}
-          width={200}
-          height={200}
+          width={400}
+          height={400}
           onError={(e) => {
             e.currentTarget.onerror = null;
             e.currentTarget.src = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(student.name)}&backgroundColor=e2e8f0`;
           }}
         />
         <div className={styles.photoOverlay} />
-      </div>
-
-      {/* Content */}
-      <div className={styles.content}>
-        <div className={styles.badges}>
-          <span className={`badge badge-green ${styles.sagePill}`}>
-            {student.branch}
+        
+        <div className={styles.overlayContent}>
+          <h3 className={styles.name}>{student.name}</h3>
+          
+          <span className={styles.pill}>
+            {student.branch} · &#39;{student.batch_year ? student.batch_year.toString().slice(-2) : ''}
           </span>
-          <span className={`badge badge-green ${styles.sagePill}`}>
-            &#39;{student.batch_year ? student.batch_year.toString().slice(-2) : ''}
-          </span>
+          
+          {igHandle && (
+            <div className={styles.socials}>
+              <div
+                onClick={(e) => {
+                  e.preventDefault();
+                  window.open(igLink, '_blank');
+                }}
+                className={styles.socialIcon}
+              >
+                <InstagramIcon />
+              </div>
+            </div>
+          )}
         </div>
-
-        <h3 className={`${styles.name} ${styles.deepMatcha}`}>{student.name}</h3>
-
-        <div className={styles.hometown}>
-          <svg className={styles.pinIcon} xmlns="http://www.w3.org/200.5/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-            <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z"></path>
-            <circle cx="12" cy="10" r="3"></circle>
-          </svg>
-          <span>{student.hometown}</span>
-        </div>
-
-        {!compact && (
-          <p className={styles.bio}>{student.bio}</p>
-        )}
-
-        {student.instagram_handle && (
-          <div className={styles.instagram}>
-            <span className={styles.igIcon}>@</span>
-            <span>{student.instagram_handle}</span>
-          </div>
-        )}
       </div>
-
-      {/* Hover arrow */}
-      <div className={styles.arrow}>→</div>
     </Link>
   );
 }

@@ -132,7 +132,7 @@ export default function ClubsManager() {
   return (
     <div>
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '1.5rem' }}>
-        <h1 className={styles.sectionTitle} style={{ marginBottom: 0 }}>Clubs & Societies Manager</h1>
+        <h1 className={styles.sectionTitle} style={{ marginBottom: 0 }}>Clubs Manager</h1>
         <button className="btn btn-primary" onClick={handleAddNew}>+ Add New Club</button>
       </div>
 
@@ -217,7 +217,7 @@ export default function ClubsManager() {
                   <input required type="text" className="input" value={editingClub.name || ''} onChange={(e) => setEditingClub({...editingClub, name: e.target.value})} />
                 </div>
                 
-                <div className={styles.formGroup}>
+                <div className={styles.formGroup} style={{ gridColumn: 'span 2' }}>
                   <label>Category</label>
                   <select required className="input" value={editingClub.category || ''} onChange={(e) => setEditingClub({...editingClub, category: e.target.value})}>
                     <option value="">Select Category</option>
@@ -225,7 +225,7 @@ export default function ClubsManager() {
                   </select>
                 </div>
                 
-                <div className={styles.formGroup}>
+                <div className={styles.formGroup} style={{ gridColumn: 'span 2' }}>
                   <label>Instagram Handle or URL</label>
                   <input required type="text" className="input" value={editingClub.instagram_handle || ''} onChange={(e) => setEditingClub({...editingClub, instagram_handle: e.target.value})} />
                 </div>

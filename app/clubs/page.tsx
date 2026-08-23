@@ -2,32 +2,45 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import { getCachedData, setCachedData } from '@/lib/clientCache';
 import ClubCard, { SupabaseClub } from '@/components/ClubCard';
 import styles from './page.module.css';
 
 export default function SocietiesPage() {
   const [activeCategory, setActiveCategory] = useState('');
-  const [clubs, setClubs] = useState<SupabaseClub[]>([]);
-  const [categories, setCategories] = useState<string[]>([]);
-  const [loading, setLoading] = useState(true);
+  const [clubs, setClubs] = useState<SupabaseClub[]>(() => getCachedData<SupabaseClub[]>('clubs') || []);
+  const [categories, setCategories] = useState<string[]>(() => getCachedData<string[]>('club_categories') || []);
+  const [loading, setLoading] = useState(() => !getCachedData<SupabaseClub[]>('clubs'));
 
   useEffect(() => {
     async function fetchClubs() {
+      const cached = getCachedData<SupabaseClub[]>('clubs');
+      if (cached) {
+        setClubs(cached);
+        const uniqueCats = Array.from(new Set(cached.map(c => c.category))).filter(Boolean);
+        setCategories(uniqueCats);
+        setLoading(false);
+        return;
+      }
       const { data, error } = await supabase.from('clubs').select('*');
       if (data) {
         setClubs(data);
+        setCachedData('clubs', data);
         // Extract unique categories
         const uniqueCats = Array.from(new Set(data.map(c => c.category))).filter(Boolean);
         setCategories(uniqueCats);
+        setCachedData('club_categories', uniqueCats);
+      } else if (error) {
+        console.error('Error fetching clubs:', error);
       }
       setLoading(false);
     }
     fetchClubs();
   }, []);
 
-  const filtered = activeCategory
-    ? clubs.filter(c => c.category === activeCategory)
-    : clubs;
+  const filtered = clubs.filter((c) => {
+    return !activeCategory || c.category === activeCategory;
+  });
 
   return (
     <div className={styles.page}>
@@ -49,7 +62,7 @@ export default function SocietiesPage() {
                 className={`${styles.catPill} ${!activeCategory ? styles.catActive : ''}`}
                 onClick={() => setActiveCategory('')}
               >
-                All Clubs ({clubs.length})
+                All Categories
               </button>
               {categories.map(cat => {
                 const count = clubs.filter(c => c.category === cat).length;
@@ -79,7 +92,7 @@ export default function SocietiesPage() {
           <>
             {/* Showing label */}
             <p className={styles.showingLabel}>
-              Showing <strong>{filtered.length}</strong> {activeCategory || 'all'} {filtered.length === 1 ? 'club' : 'clubs'}
+              Showing <strong>{filtered.length}</strong> {activeCategory || 'all'} clubs
             </p>
 
             <div className={styles.grid}>
@@ -111,7 +124,7 @@ export default function SocietiesPage() {
             <div>
               <h3 className={styles.ctaTitle}>Don&apos;t see your club? 🌟</h3>
               <p className={styles.ctaDesc}>
-                Reach out to the Parichay team to get your society listed here.
+                Reach out to the Parichay team to get your club listed here.
               </p>
             </div>
             <a href="/about#contact" className="btn btn-primary btn-lg">

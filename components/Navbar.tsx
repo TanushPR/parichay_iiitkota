@@ -18,9 +18,16 @@ export default function Navbar() {
   const pathname = usePathname();
   const [scrolled, setScrolled] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
+  const [scrollProgress, setScrollProgress] = useState(0);
 
   useEffect(() => {
-    const handler = () => setScrolled(window.scrollY > 20);
+    const handler = () => {
+      setScrolled(window.scrollY > 20);
+      // Calculate scroll progress
+      const totalHeight = document.documentElement.scrollHeight - window.innerHeight;
+      const progress = totalHeight > 0 ? (window.scrollY / totalHeight) * 100 : 0;
+      setScrollProgress(progress);
+    };
     window.addEventListener('scroll', handler, { passive: true });
     return () => window.removeEventListener('scroll', handler);
   }, []);
@@ -30,17 +37,16 @@ export default function Navbar() {
 
   return (
     <header className={`${styles.navbar} ${scrolled ? styles.scrolled : ''}`}>
+      {/* Scroll Progress Bar */}
+      <div className={styles.progressBar} style={{ width: `${scrollProgress}%` }} />
+
       <div className={`container ${styles.inner}`}>
         {/* Logo */}
-        <a 
-          href="https://www.instagram.com/parichay_iiitkota/" 
-          target="_blank" 
-          rel="noopener noreferrer" 
-          className={styles.logo}
-        >
+        <Link href="/" className={styles.logo}>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
           <img src="/logo.png" alt="Parichay IIIT Kota" className={styles.logoImg} />
           <span className={styles.logoText}>Parichay</span>
-        </a>
+        </Link>
 
         {/* Desktop Nav */}
         <nav className={styles.desktopNav}>
@@ -51,6 +57,7 @@ export default function Navbar() {
               className={`${styles.navLink} ${pathname === link.href ? styles.active : ''}`}
             >
               {link.label}
+              {pathname === link.href && <span className={styles.activeDot} />}
             </Link>
           ))}
         </nav>
@@ -69,11 +76,12 @@ export default function Navbar() {
 
       {/* Mobile Menu */}
       <div className={`${styles.mobileMenu} ${menuOpen ? styles.mobileOpen : ''}`}>
-        {NAV_LINKS.map(link => (
+        {NAV_LINKS.map((link, i) => (
           <Link
             key={link.href}
             href={link.href}
             className={`${styles.mobileLink} ${pathname === link.href ? styles.mobileActive : ''}`}
+            style={{ animationDelay: menuOpen ? `${i * 0.05}s` : '0s' }}
           >
             {link.label}
           </Link>

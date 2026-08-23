@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import TeamCard from '@/components/TeamCard';
+import TeamSectionInteractive from '@/components/TeamSectionInteractive';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
@@ -10,24 +10,29 @@ export const metadata: Metadata = {
 
 import { supabase } from '@/lib/supabase';
 
-export const dynamic = 'force-dynamic';
+export const revalidate = 60;
 
 export default async function AboutPage() {
-  // Fetch site content
-  const { data: siteContentData } = await supabase.from('site_content').select('*');
   const siteContent: Record<string, string> = {};
-  if (siteContentData) {
-    siteContentData.forEach(item => {
-      siteContent[item.key] = item.value;
-    });
-  }
+  let teamMembers: any[] = [];
 
-  // Fetch team members
-  const { data: teamMembersData } = await supabase
-    .from('team_members')
-    .select('*')
-    .order('display_order', { ascending: true });
-  const teamMembers = teamMembersData || [];
+  try {
+    const [contentRes, teamRes] = await Promise.allSettled([
+      supabase.from('site_content').select('*'),
+      supabase.from('team_members').select('*').order('display_order', { ascending: true })
+    ]);
+
+    if (contentRes.status === 'fulfilled' && contentRes.value.data) {
+      contentRes.value.data.forEach((item: any) => {
+        siteContent[item.key] = item.value;
+      });
+    }
+    if (teamRes.status === 'fulfilled' && teamRes.value.data) {
+      teamMembers = teamRes.value.data;
+    }
+  } catch (err) {
+    console.error('Error loading about page data:', err);
+  }
 
   return (
     <div className={styles.page}>
@@ -70,13 +75,7 @@ export default async function AboutPage() {
             <h2 className="section-title" style={{ color: '#ffffff' }}>Who Runs Parichay?</h2>
           </div>
 
-          <div className={styles.teamGrid}>
-            {teamMembers.map((member, i) => (
-                <div key={member.id} className="animate-fadeInUp" style={{ animationDelay: `${i * 0.08}s` }}>
-                  <TeamCard member={member} />
-                </div>
-            ))}
-          </div>
+          <TeamSectionInteractive members={teamMembers} />
         </div>
       </section>
 
