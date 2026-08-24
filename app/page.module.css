@@ -324,9 +324,9 @@
 
 .statsBar {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: repeat(2, 1fr);
   gap: 0;
-  max-width: 860px;
+  max-width: 600px;
   margin: 0 auto;
   background: rgba(43, 58, 44, 0.95);
   backdrop-filter: blur(12px);
@@ -540,7 +540,7 @@
   .hero { min-height: 85vh; }
   .heroInner { grid-template-columns: 1fr; }
   .heroVisual { display: none; }
-  .statsBar { grid-template-columns: repeat(3, 1fr); }
+  .statsBar { grid-template-columns: repeat(2, 1fr); }
   .clubsGrid { grid-template-columns: repeat(2, 1fr); }
   .teamGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .teamGrid > *:hover > div { width: 320px; }
@@ -573,7 +573,7 @@
 
 @media (max-width: 480px) {
   .statsBar { 
-    grid-template-columns: repeat(3, 1fr); 
+    grid-template-columns: repeat(2, 1fr); 
     border-radius: var(--radius-lg); 
   }
   .stat {

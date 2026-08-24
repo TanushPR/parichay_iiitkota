@@ -22,12 +22,6 @@ const InstagramIcon = ({ style }: { style?: React.CSSProperties }) => (
   </svg>
 );
 
-const UserIcon = ({ style }: { style?: React.CSSProperties }) => (
-  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round" style={style}>
-    <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-    <circle cx="12" cy="7" r="4"></circle>
-  </svg>
-);
 
 export default function TeamSectionInteractive({ members }: { members: SupabaseTeamMember[] }) {
   const [hoveredId, setHoveredId] = useState<string | null>(null);
@@ -67,7 +61,7 @@ export default function TeamSectionInteractive({ members }: { members: SupabaseT
             const igHandle = m.instagram_handle || '';
             const igLink = igHandle.startsWith('http') ? igHandle : `https://instagram.com/${igHandle}`;
             const photoUrl = formatImageUrl(m.photo_url) || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(m.name)}&backgroundColor=e2e8f0`;
-            const bio = m.bio || `Team member responsible for ${m.role_description}.`;
+            const bio = m.bio || (m.role_description ? `Team member responsible for ${m.role_description}.` : 'Parichay Team Member');
 
             return (
               <div
@@ -165,17 +159,7 @@ export default function TeamSectionInteractive({ members }: { members: SupabaseT
                     <p style={{ fontSize: 13, lineHeight: 1.6, color: 'var(--text-secondary)', margin: 0, display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
                       {bio}
                     </p>
-                    <div style={{ display: "grid", gridTemplateColumns: "1fr", gap: 12 }}>
-                      <div style={{ display: "flex", gap: 8, alignItems: "flex-start" }}>
-                        <UserIcon style={{ color: 'var(--accent)', marginTop: 2, flexShrink: 0 }} />
-                        <div>
-                          <div style={{ fontSize: 10, fontWeight: 700, color: 'var(--text-muted)', textTransform: "uppercase", letterSpacing: 0.4 }}>
-                            Role
-                          </div>
-                          <div style={{ fontSize: 13, color: 'var(--text-primary)', fontWeight: 600 }}>{m.role_description}</div>
-                        </div>
-                      </div>
-                    </div>
+
                     {igHandle && (
                       <div style={{ display: "flex", gap: 8 }}>
                         <a

@@ -9,15 +9,15 @@ export const metadata: Metadata = {
     default: 'Parichay — Meet the Juniors',
     template: '%s | Parichay',
   },
-  description: 'Parichay is the official junior directory, clubs hub, and campus navigation site for our college. Discover students, societies, and spaces.',
-  keywords: ['college directory', 'junior introduction', 'student profiles', 'campus guide', 'clubs societies'],
+  description: 'Parichay is the official junior directory and clubs hub for our college. Discover students and societies.',
+  keywords: ['college directory', 'junior introduction', 'student profiles', 'clubs societies'],
   icons: {
     icon: '/logo.png',
     apple: '/apple-icon.png',
   },
   openGraph: {
     title: 'Parichay — Meet the Juniors',
-    description: 'A searchable junior directory, clubs hub, and campus navigation site.',
+    description: 'A searchable junior directory and clubs hub.',
     type: 'website',
     images: ['/logo.png'],
   },

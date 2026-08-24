@@ -193,10 +193,6 @@ export default function TeamManager() {
                 <input required type="url" className="input" value={editingMember.photo_url || ''} onChange={(e) => setEditingMember({...editingMember, photo_url: e.target.value})} />
               </div>
               
-              <div className={styles.formGroup} style={{ marginTop: '1rem' }}>
-                <label>Role Description</label>
-                <input required type="text" className="input" value={editingMember.role_description || ''} onChange={(e) => setEditingMember({...editingMember, role_description: e.target.value})} />
-              </div>
 
               <div className={styles.formGroup} style={{ marginTop: '1rem' }}>
                 <label>Bio</label>

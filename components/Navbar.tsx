@@ -9,8 +9,6 @@ const NAV_LINKS = [
   { href: '/',          label: 'Home' },
   { href: '/directory', label: 'Directory' },
   { href: '/clubs',     label: 'Clubs' },
-  { href: '/groups',    label: 'Groups' },
-  { href: '/map',       label: 'Campus' },
   { href: '/about',     label: 'About' },
 ];
 

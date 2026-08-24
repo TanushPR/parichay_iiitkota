@@ -66,7 +66,6 @@ export default function AdminLayout({ children }: { children: React.ReactNode })
     { href: '/admin', label: 'Dashboard Overview' },
     { href: '/admin/students', label: 'Student Directory' },
     { href: '/admin/clubs', label: 'Clubs Manager' },
-    { href: '/admin/groups', label: 'Groups Manager' },
     { href: '/admin/team', label: 'Team / Credits Manager' },
     { href: '/admin/cms', label: 'Site Text & CMS' },
   ];

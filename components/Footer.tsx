@@ -6,7 +6,6 @@ const FOOTER_LINKS = {
     { href: '/', label: 'Home' },
     { href: '/directory', label: 'Directory' },
     { href: '/clubs', label: 'Clubs & Societies' },
-    { href: '/map', label: 'Campus' },
   ],
   Info: [
     { href: '/about', label: 'About Parichay' },

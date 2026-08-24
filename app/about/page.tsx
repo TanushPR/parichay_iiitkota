@@ -95,10 +95,6 @@ export default async function AboutPage() {
                   <span>🎯</span>
                   <p><strong>Minimal data collection.</strong> We only collect what the directory actually displays — name, branch, bio, photo, and socials. No phone numbers or addresses.</p>
                 </div>
-                <div className={styles.privacyPoint}>
-                  <span>🗑️</span>
-                  <p><strong>Right to be removed.</strong> Any student can request their profile to be taken down at any time by contacting us below.</p>
-                </div>
               </div>
             </div>
           </div>

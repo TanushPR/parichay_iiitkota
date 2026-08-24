@@ -67,9 +67,6 @@ export default function AdminDashboard() {
         <Link href="/admin/cms" className="btn btn-outline">
           Edit Site Banner
         </Link>
-        <button className="btn btn-outline" onClick={() => alert('Map upload coming soon!')}>
-          Upload Map Image
-        </button>
       </div>
     </div>
   );

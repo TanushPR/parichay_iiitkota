@@ -7,7 +7,7 @@ import styles from './page.module.css';
 
 export const metadata: Metadata = {
   title: 'Home — Meet the Juniors',
-  description: 'Discover our college\'s junior batch. Search profiles, explore clubs, and navigate campus — all in one place.',
+  description: 'Discover our college\'s junior batch. Search profiles and explore clubs — all in one place.',
 };
 
 export const revalidate = 60;
@@ -16,16 +16,12 @@ export default async function HomePage() {
   let teamMembers: any[] = [];
   let siteContent: Record<string, string> = {};
   let clubs: any[] = [];
-  let studentCount: number | null = null;
-  let groupCount: number | null = null;
 
   try {
-    const [teamRes, contentRes, clubsRes, studentCountRes, groupCountRes] = await Promise.allSettled([
+    const [teamRes, contentRes, clubsRes] = await Promise.allSettled([
       supabase.from('team_members').select('*').order('display_order', { ascending: true }),
       supabase.from('site_content').select('*'),
-      supabase.from('clubs').select('*').limit(6),
-      supabase.from('students').select('*', { count: 'exact', head: true }),
-      supabase.from('groups').select('*', { count: 'exact', head: true })
+      supabase.from('clubs').select('*').limit(6)
     ]);
 
     if (teamRes.status === 'fulfilled' && teamRes.value.data) {
@@ -39,18 +35,12 @@ export default async function HomePage() {
     if (clubsRes.status === 'fulfilled' && clubsRes.value.data) {
       clubs = clubsRes.value.data;
     }
-    if (studentCountRes.status === 'fulfilled') {
-      studentCount = studentCountRes.value.count;
-    }
-    if (groupCountRes.status === 'fulfilled') {
-      groupCount = groupCountRes.value.count;
-    }
   } catch (err) {
     console.error('Error loading homepage data:', err);
   }
 
   const heroTitle = siteContent['home_hero_title'] || 'Meet the Class of 2026';
-  const heroSubtitle = siteContent['home_hero_subtitle'] || 'Parichay is your one-stop hub to discover fellow students, explore clubs and societies, and navigate campus — all beautifully organised in one place. 🌱';
+  const heroSubtitle = siteContent['home_hero_subtitle'] || 'Parichay is your one-stop hub to discover fellow students and explore clubs and societies — all beautifully organised in one place. 🌱';
 
   return (
     <>
@@ -118,29 +108,6 @@ export default async function HomePage() {
           <span className={styles.scrollText}>Scroll</span>
           <div className={styles.scrollLine}>
             <div className={styles.scrollDot} />
-          </div>
-        </div>
-      </section>
-
-      {/* ─── Stats Bar ───────────────────────────────── */}
-      <section className={styles.statsSection}>
-        <div className="container">
-          <div className={styles.statsBar}>
-            <div className={styles.stat}>
-              <span className={styles.statEmoji}>👥</span>
-              <span className={styles.statValue}>{studentCount || '200'}+</span>
-              <span className={styles.statLabel}>Student Profiles</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statEmoji}>🏆</span>
-              <span className={styles.statValue}>{clubs.length || '20'}+</span>
-              <span className={styles.statLabel}>Active Clubs</span>
-            </div>
-            <div className={styles.stat}>
-              <span className={styles.statEmoji}>💬</span>
-              <span className={styles.statValue}>{groupCount || '15'}+</span>
-              <span className={styles.statLabel}>Communities</span>
-            </div>
           </div>
         </div>
       </section>
