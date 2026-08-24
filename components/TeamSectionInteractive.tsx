@@ -148,7 +148,7 @@ export default function TeamSectionInteractive({ members }: { members: SupabaseT
                 {/* Expanded panel */}
                 <div
                   style={{
-                    maxHeight: isHovered ? 340 : 0,
+                    maxHeight: isHovered ? 1000 : 0,
                     opacity: isHovered ? 1 : 0,
                     transition: "max-height 0.45s cubic-bezier(0.22,1,0.36,1), opacity 0.3s ease " + (isHovered ? "0.1s" : "0s"),
                     overflow: "hidden",
@@ -156,7 +156,7 @@ export default function TeamSectionInteractive({ members }: { members: SupabaseT
                   }}
                 >
                   <div style={{ padding: 20, display: "flex", flexDirection: "column", gap: 16 }}>
-                    <p style={{ fontSize: 13, lineHeight: 1.6, color: 'var(--text-secondary)', margin: 0, display: '-webkit-box', WebkitLineClamp: 4, WebkitBoxOrient: 'vertical', overflow: 'hidden' }}>
+                    <p style={{ fontSize: 13, lineHeight: 1.6, color: 'var(--text-secondary)', margin: 0 }}>
                       {bio}
                     </p>
 
