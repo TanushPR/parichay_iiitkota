@@ -6,7 +6,7 @@ import Footer from '@/components/Footer';
 export const metadata: Metadata = {
   metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || 'https://parichay.app'),
   title: {
-    default: 'Parichay — Meet the Juniors',
+    default: 'Parichay - Meet the Juniors',
     template: '%s | Parichay',
   },
   description: 'Parichay is the official junior directory and clubs hub for our college. Discover students and societies.',
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     apple: '/apple-icon.png',
   },
   openGraph: {
-    title: 'Parichay — Meet the Juniors',
+    title: 'Parichay - Meet the Juniors',
     description: 'A searchable junior directory and clubs hub.',
     type: 'website',
     images: ['/logo.png'],
@@ -30,9 +30,9 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" data-scroll-behavior="smooth" style={{ scrollBehavior: 'smooth' }}>
-      <body>
+      <body className="site-body">
         <Navbar />
-        <main className="page-wrapper" style={{ paddingTop: '72px' }}>
+        <main className="page-wrapper" style={{ paddingTop: '80px' }}>
           {children}
         </main>
         <Footer />

@@ -1,419 +1,216 @@
-.page { min-height: 100vh; }
+.page {
+  min-height: 100vh;
+}
 
-/* Hero */
 .hero {
-  position: relative;
-  overflow: hidden;
-  padding: 5rem 0 4rem;
-  background: var(--bg-primary);
-}
-
-.heroBlob {
-  position: absolute;
-  top: -20%;
-  right: -10%;
-  width: 600px;
-  height: 600px;
-  border-radius: 60% 40% 50% 55%;
-  background: radial-gradient(ellipse, rgba(232, 240, 228, 0.6) 0%, transparent 65%);
-  pointer-events: none;
-  animation: blobFloat 15s ease-in-out infinite;
-}
-
-@keyframes blobFloat {
-  0%, 100% { transform: translate(0, 0) scale(1); }
-  50% { transform: translate(-20px, 15px) scale(1.03); }
+  padding: 3rem 0 2rem;
 }
 
 .heroInner {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-align: center;
-  max-width: 720px;
+  max-width: 760px;
   margin: 0 auto;
-  position: relative;
-  z-index: 1;
-}
-
-.heroContent {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
   text-align: center;
-  gap: 1.25rem;
+  display: grid;
+  gap: 0.85rem;
 }
-
-.heroBadge { margin: 0 auto; }
 
 .heroTitle {
-  font-size: clamp(2.2rem, 4vw, 3.5rem);
-  font-weight: 900;
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  text-align: center;
+  font-size: clamp(2.4rem, 5vw, 4.2rem);
 }
 
 .accent {
-  background: linear-gradient(135deg, var(--accent) 0%, var(--accent-light) 100%);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
+  color: var(--accent-strong);
 }
 
 .heroDesc {
-  font-size: 1.05rem;
-  color: var(--text-secondary);
+  max-width: 56ch;
+  margin: 0 auto;
+  font-size: 0.98rem;
   line-height: 1.75;
-  max-width: 580px;
-  text-align: center;
+  color: var(--text-secondary);
 }
 
-/* Pipeline Card */
-.heroCard { flex-shrink: 0; }
-
-.pipelineCard {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  padding: 1.5rem;
-  box-shadow: var(--shadow-lg);
+.heroActions {
   display: flex;
-  flex-direction: column;
+  gap: 0.8rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
 }
 
-.pipelineTitle {
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.8rem;
+.teamSection {
+  padding: 3rem 0;
+  position: relative;
+}
+
+.teamSection::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(180deg, rgba(255, 255, 255, 0.1), rgba(255, 255, 255, 0.35));
+  pointer-events: none;
+}
+
+.valuesSection {
+  padding: 0 0 3rem;
+}
+
+.valuesGrid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.valueCard {
+  padding: 1.35rem;
+  border-radius: var(--radius-xl);
+  background: rgba(255, 253, 250, 0.86);
+  border: 1px solid rgba(217, 209, 195, 0.9);
+  box-shadow: var(--shadow-sm);
+}
+
+.valueLabel {
+  font-family: var(--font-display);
+  font-size: 0.78rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 1.2rem;
-  text-align: center;
+  margin-bottom: 0.5rem;
 }
 
-.pipelineStep {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
+.valueTitle {
+  font-size: 1.18rem;
+  margin-bottom: 0.6rem;
 }
 
-.pipelineStepInner {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  width: 100%;
-  padding: 0.6rem 0.5rem;
-  border-radius: var(--radius-md);
-  transition: background 0.2s;
-}
-
-.pipelineStepInner:hover { background: var(--accent-pale); }
-
-.pipelineDot {
-  width: 24px;
-  height: 24px;
-  background: var(--accent);
-  color: #fff;
-  border-radius: 50%;
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.72rem;
-  font-weight: 800;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-shrink: 0;
-}
-
-.pipelineIcon { font-size: 1.2rem; }
-
-.pipelineLabel {
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.875rem;
-  font-weight: 600;
-  color: var(--text-primary);
-}
-
-.pipelineArrow {
-  color: var(--accent-light);
-  font-size: 0.9rem;
-  margin: 0.1rem 0;
-  align-self: flex-start;
-  padding-left: 0.75rem;
-}
-
-/* Features */
-.featuresGrid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
-}
-
-.featureCard {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.featureCard:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--accent-light);
-}
-
-.featureIcon { font-size: 2rem; }
-
-.featureTitle {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.05rem;
-  font-weight: 800;
-  color: var(--text-primary);
-}
-
-.featureDesc {
-  font-size: 0.875rem;
+.valueText {
+  line-height: 1.75;
   color: var(--text-secondary);
-  line-height: 1.6;
 }
 
-/* Team */
-.teamSection {
-  padding: 5rem 0;
-  background: var(--text-primary);
+.contactSection {
+  padding: 0 0 3.5rem;
 }
 
-.teamSection :global(.section-label) { color: var(--accent-light); }
-.teamSection :global(.section-title) { color: #ffffff; }
-.teamSection :global(.section-desc) { color: rgba(255,255,255,0.85); }
-
-.teamGrid {
-  display: grid;
-  grid-template-columns: repeat(5, minmax(0, 1fr));
-  gap: 1rem;
-}
-
-.teamGrid > * {
-  position: relative;
-  z-index: 1;
-  display: flex;
-  justify-content: center;
-}
-
-.teamGrid > *:hover {
-  z-index: 10;
-}
-
-.teamGrid > * > div {
-  width: 100%;
-  transition: width 0.45s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.teamGrid > *:hover > div {
-  width: 300px;
-}
-
-.teamCard {
-  background: rgba(255,255,255,0.05);
-  border: 1px solid rgba(255,255,255,0.1);
-  border-radius: var(--radius-lg);
-  padding: 1.5rem 1rem;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 0.6rem;
-  transition: all 0.25s ease;
-}
-
-.teamCard:hover {
-  background: rgba(255,255,255,0.08);
-  border-color: var(--accent-light);
-  transform: translateY(-4px);
-}
-
-.teamEmoji { font-size: 2.2rem; }
-
-.teamName {
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.9rem;
-  font-weight: 800;
-  color: #fff;
-}
-
-.teamRole {
-  font-size: 0.78rem;
-  color: rgba(255,255,255,0.55);
-  line-height: 1.5;
-  text-align: center;
-}
-
-/* Privacy */
-.privacySection {
-  padding: 4rem 0;
-  background: var(--bg-card);
-  border-top: 1px solid var(--border);
-}
-
-.privacyCard {
-  display: flex;
-  gap: 2rem;
-  align-items: flex-start;
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-xl);
-  padding: 2.5rem;
-  box-shadow: var(--shadow-sm);
-  transition: all 0.3s ease;
-}
-
-.privacyCard:hover {
-  box-shadow: var(--shadow-md);
-}
-
-.privacyIcon { 
-  font-size: 2.5rem; 
-  flex-shrink: 0; 
-  margin-top: 0.25rem; 
-  transition: transform 0.3s ease;
-}
-
-.privacyCard:hover .privacyIcon {
-  transform: scale(1.1);
-}
-
-.privacyContent { flex: 1; }
-
-.privacyTitle {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.4rem;
-  font-weight: 800;
-  color: var(--text-primary);
-  margin-bottom: 1.25rem;
-}
-
-.privacyPoints {
-  display: flex;
-  flex-direction: column;
-  gap: 1rem;
-}
-
-.privacyPoint {
-  display: flex;
-  gap: 0.85rem;
-  align-items: flex-start;
-  padding: 0.75rem;
-  border-radius: var(--radius-md);
-  transition: background 0.2s ease;
-}
-
-.privacyPoint:hover {
-  background: var(--accent-pale);
-}
-
-.privacyPoint > span { font-size: 1.1rem; flex-shrink: 0; margin-top: 0.1rem; }
-
-.privacyPoint p {
-  font-size: 0.9rem;
-  color: var(--text-secondary);
-  line-height: 1.6;
-}
-
-/* Contact */
 .contactGrid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1.5rem;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 1rem;
 }
 
 .contactCard {
-  background: var(--bg-card);
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  padding: 1.75rem;
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
-  position: relative;
-  overflow: hidden;
-}
-
-/* Colored top border per card */
-.contactCard:nth-child(1)::before,
-.contactCard:nth-child(2)::before,
-.contactCard:nth-child(3)::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  transform: scaleX(0);
-  transition: transform 0.35s ease;
-  transform-origin: left;
-}
-
-.contactCard:nth-child(1)::before { background: #EF4444; }
-.contactCard:nth-child(2)::before { background: #3B82F6; }
-.contactCard:nth-child(3)::before { background: #F59E0B; }
-
-.contactCard:hover::before {
-  transform: scaleX(1);
-}
-
-.contactCard:hover {
-  transform: translateY(-4px);
-  box-shadow: var(--shadow-md);
-  border-color: var(--accent-light);
-}
-
-.contactIcon { 
-  font-size: 2rem; 
-  transition: transform 0.3s ease;
-}
-
-.contactCard:hover .contactIcon {
-  transform: scale(1.15);
+  display: grid;
+  gap: 0.85rem;
+  padding: 1.45rem;
+  border-radius: var(--radius-xl);
+  background: rgba(255, 253, 250, 0.88);
+  border: 1px solid rgba(217, 209, 195, 0.92);
+  box-shadow: var(--shadow-sm);
 }
 
 .contactTitle {
-  font-family: 'Outfit', sans-serif;
   font-size: 1.1rem;
-  font-weight: 800;
-  color: var(--text-primary);
 }
 
 .contactDesc {
-  font-size: 0.875rem;
   color: var(--text-secondary);
-  line-height: 1.6;
-  flex: 1;
+  line-height: 1.75;
 }
 
-/* Responsive */
-@media (max-width: 1024px) {
-  .teamGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
-  .teamGrid > *:hover > div { width: 320px; }
-  .featuresGrid { grid-template-columns: repeat(2, 1fr); }
+@media (max-width: 900px) {
+  .valuesGrid,
+  .contactGrid {
+    grid-template-columns: 1fr;
+  }
 }
 
-@media (max-width: 768px) {
-  .heroInner { grid-template-columns: 1fr; }
-  .heroCard { display: none; }
-  .teamGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .teamGrid > *:hover > div { width: 320px; }
-  .contactGrid { grid-template-columns: 1fr; }
-  .privacyCard { flex-direction: column; }
-}
+@media (max-width: 520px) {
+  .page :global(.container) {
+    width: calc(100% - 1rem);
+  }
 
-@media (max-width: 480px) {
-  .featuresGrid { grid-template-columns: 1fr; }
-  .teamGrid { grid-template-columns: 1fr; }
-  .teamGrid > *:hover > div { width: 100%; }
+  .hero {
+    padding: 1.1rem 0 1.25rem;
+  }
+
+  .heroInner {
+    gap: 0.55rem;
+  }
+
+  .heroTitle {
+    font-size: 2rem;
+    letter-spacing: -0.04em;
+  }
+
+  .heroDesc {
+    font-size: 0.84rem;
+    line-height: 1.45;
+  }
+
+  .heroActions {
+    gap: 0.5rem;
+    margin-top: 0.15rem;
+  }
+
+  .heroActions .btn {
+    min-height: 2.35rem;
+    padding: 0.45rem 0.8rem;
+    font-size: 0.78rem;
+  }
+
+  .teamSection {
+    padding: 1.5rem 0;
+  }
+
+  .valuesSection {
+    padding-bottom: 1.5rem;
+  }
+
+  .valuesGrid {
+    gap: 0.55rem;
+  }
+
+  .valueCard {
+    padding: 0.9rem;
+    border-radius: 0;
+  }
+
+  .valueLabel {
+    margin-bottom: 0.3rem;
+    font-size: 0.68rem;
+  }
+
+  .valueTitle {
+    margin-bottom: 0.35rem;
+    font-size: 1rem;
+  }
+
+  .valueText {
+    font-size: 0.8rem;
+    line-height: 1.45;
+  }
+
+  .contactSection {
+    padding-bottom: 1.5rem;
+  }
+
+  .contactGrid {
+    gap: 0.6rem;
+  }
+
+  .contactCard {
+    gap: 0.5rem;
+    padding: 0.85rem;
+    border-radius: 0;
+  }
+
+  .contactTitle {
+    font-size: 0.95rem;
+  }
+
+  .contactDesc {
+    font-size: 0.8rem;
+    line-height: 1.45;
+  }
 }

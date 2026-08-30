@@ -1,25 +1,21 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import TeamSectionInteractive from '@/components/TeamSectionInteractive';
+import { supabase } from '@/lib/supabase';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
   title: 'About Parichay',
-  description: 'Learn about the Parichay initiative — the student-run junior directory and campus hub that connects college communities.',
+  description: 'Learn about the student-run junior directory and campus hub that connects college communities.',
 };
-
-import { supabase } from '@/lib/supabase';
 
 export const revalidate = 60;
 
 export default async function AboutPage() {
   const siteContent: Record<string, string> = {};
-  let teamMembers: any[] = [];
 
   try {
-    const [contentRes, teamRes] = await Promise.allSettled([
+    const [contentRes] = await Promise.allSettled([
       supabase.from('site_content').select('*'),
-      supabase.from('team_members').select('*').order('display_order', { ascending: true })
     ]);
 
     if (contentRes.status === 'fulfilled' && contentRes.value.data) {
@@ -27,116 +23,98 @@ export default async function AboutPage() {
         siteContent[item.key] = item.value;
       });
     }
-    if (teamRes.status === 'fulfilled' && teamRes.value.data) {
-      teamMembers = teamRes.value.data;
-    }
-  } catch (err) {
-    console.error('Error loading about page data:', err);
+
+  } catch (error) {
+    console.error('Error loading about page data:', error);
   }
 
   return (
     <div className={styles.page}>
-      {/* Hero */}
       <section className={styles.hero}>
-        <div className={styles.heroBlob} />
+        <div className={styles.heroInner}>
+          <h1 className={styles.heroTitle}>
+            What is <span className={styles.accent}>Parichay</span>?
+          </h1>
+          <p className={styles.heroDesc}>
+            {siteContent['about_description'] ||
+              'Parichay means introduction. We help juniors introduce themselves to the campus through a clean, consent-based directory and clubs hub.'}
+          </p>
+          <div className={styles.heroActions}>
+            <Link href="/directory" className="btn btn-primary btn-lg">
+              Browse Directory
+            </Link>
+            <Link href="/clubs" className="btn btn-outline btn-lg">
+              Explore Clubs
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      <section className={styles.valuesSection}>
         <div className="container">
-          <div className={styles.heroInner}>
-            <div className={styles.heroContent}>
-              <span className={`badge badge-green ${styles.heroBadge}`}>ABOUT US</span>
-              <h1 className={styles.heroTitle}>
-                What is <span style={{ color: '#000' }}>Parichay</span>?
-              </h1>
-              <p className={styles.heroDesc}>
-                {siteContent['about_description'] || (
-                  <>
-                    <em>Parichay</em> (परिचय) means <em>introduction</em> in Hindi. We are the student-run initiative that 
-                    introduces every junior to the entire college — one beautifully designed profile at a time.
-                  </>
-                )}
+          <div className={styles.valuesGrid}>
+            <article className={styles.valueCard}>
+              <p className={styles.valueLabel}>Consent first</p>
+              <h3 className={styles.valueTitle}>Profiles go live only after approval.</h3>
+              <p className={styles.valueText}>
+                Every listing is published with explicit student consent and can be removed if requested.
               </p>
-              <div className="flex gap-3 flex-wrap justify-center">
-                <Link href="/directory" className="btn btn-primary btn-lg">
-                  Browse Directory →
-                </Link>
-                <Link href="/clubs" className="btn btn-outline btn-lg">
-                  Explore Clubs
-                </Link>
-              </div>
-            </div>
+            </article>
+
+            <article className={styles.valueCard}>
+              <p className={styles.valueLabel}>Minimal data</p>
+              <h3 className={styles.valueTitle}>Only what students choose to share.</h3>
+              <p className={styles.valueText}>
+                We keep the directory focused on the details people actually need to know.
+              </p>
+            </article>
+
+            <article className={styles.valueCard}>
+              <p className={styles.valueLabel}>Easy updates</p>
+              <h3 className={styles.valueTitle}>Fast edits, quick removals, clearer listings.</h3>
+              <p className={styles.valueText}>
+                The team can update or remove entries with minimal friction when students reach out.
+              </p>
+            </article>
           </div>
         </div>
       </section>
 
-      {/* Team */}
-      <section id="team" className={`${styles.teamSection}`}>
+      <section id="contact" className={styles.contactSection}>
         <div className="container">
           <div className="text-center" style={{ marginBottom: '2rem' }}>
-            <p className="section-label" style={{ color: 'var(--accent-light)' }}>👥 The Team</p>
-            <h2 className="section-title" style={{ color: '#ffffff' }}>Who Runs Parichay?</h2>
+            <p className="section-label">Reach out</p>
+            <h2 className="section-title">Contact the team</h2>
           </div>
 
-          <TeamSectionInteractive members={teamMembers} />
-        </div>
-      </section>
-
-      {/* Privacy & Consent */}
-      <section className={styles.privacySection}>
-        <div className="container">
-          <div className={styles.privacyCard}>
-            <span className={styles.privacyIcon}>🔒</span>
-            <div className={styles.privacyContent}>
-              <h2 className={styles.privacyTitle}>Data & Consent Policy</h2>
-              <div className={styles.privacyPoints}>
-                <div className={styles.privacyPoint}>
-                  <span>✅</span>
-                  <p><strong>Explicit consent required.</strong> Every profile is published only after the student checks the consent box confirming they agree to be featured on Instagram and this website.</p>
-                </div>
-                <div className={styles.privacyPoint}>
-                  <span>🎯</span>
-                  <p><strong>Minimal data collection.</strong> We only collect what the directory actually displays — name, branch, bio, photo, and socials. No phone numbers or addresses.</p>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Contact */}
-      <section id="contact" className="section">
-        <div className="container">
-          <div className="text-center" style={{ marginBottom: '2rem' }}>
-            <p className="section-label">📬 Reach Out</p>
-            <h2 className="section-title">Contact the Team</h2>
-          </div>
           <div className={styles.contactGrid}>
             <div id="remove" className={styles.contactCard}>
-              <span className={styles.contactIcon}>🗑️</span>
-              <h3 className={styles.contactTitle}>Remove My Profile</h3>
+              <h3 className={styles.contactTitle}>Remove my profile</h3>
               <p className={styles.contactDesc}>
-                Want your profile removed from the directory? Email us and we&apos;ll take it down within 48 hours.
+                Want your profile removed from the directory? Email us and we will take it down within 48 hours.
               </p>
               <a href="mailto:parichayiiitkota@gmail.com" className="btn btn-outline">
-                Email Us →
+                Email us
               </a>
             </div>
+
             <div className={styles.contactCard}>
-              <span className={styles.contactIcon}>➕</span>
-              <h3 className={styles.contactTitle}>Add Your Club</h3>
+              <h3 className={styles.contactTitle}>Add your club</h3>
               <p className={styles.contactDesc}>
-                Is your society missing from the clubs hub? Reach out and we&apos;ll get it listed.
+                Is your society missing from the clubs hub? Reach out and we will get it listed.
               </p>
               <a href="mailto:parichayiiitkota@gmail.com" className="btn btn-outline">
-                Contact Us →
+                Contact us
               </a>
             </div>
+
             <div className={styles.contactCard}>
-              <span className={styles.contactIcon}>💡</span>
-              <h3 className={styles.contactTitle}>Suggest a Feature</h3>
+              <h3 className={styles.contactTitle}>Suggest a feature</h3>
               <p className={styles.contactDesc}>
-                Have an idea to make Parichay better? We&apos;re always improving — let us know.
+                Have an idea to make Parichay better? We are always improving, so let us know.
               </p>
               <a href="mailto:parichayiiitkota@gmail.com" className="btn btn-outline">
-                Share Idea →
+                Share idea
               </a>
             </div>
           </div>

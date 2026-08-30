@@ -22,15 +22,17 @@ interface StudentCardProps {
 
 const InstagramIcon = () => (
   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2" strokeLinecap="round" strokeLinejoin="round">
-    <rect x="2" y="2" width="20" height="20" rx="5" ry="5"></rect>
-    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"></path>
-    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5"></line>
+    <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+    <path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z" />
+    <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" />
   </svg>
 );
 
 export default function StudentCard({ student, compact = false }: StudentCardProps) {
   const formattedUrl = formatImageUrl(student.photo_url);
-  const photoUrl = formattedUrl || `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(student.name)}&backgroundColor=b6e3f4`;
+  const photoUrl =
+    formattedUrl ||
+    `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(student.name)}&backgroundColor=b6e3f4`;
   const igHandle = student.instagram_handle || '';
   const igLink = igHandle.startsWith('http') ? igHandle : `https://instagram.com/${igHandle}`;
 
@@ -42,34 +44,42 @@ export default function StudentCard({ student, compact = false }: StudentCardPro
           alt={student.name}
           className={styles.photo}
           width={400}
-          height={400}
-          onError={(e) => {
-            e.currentTarget.onerror = null;
-            e.currentTarget.src = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(student.name)}&backgroundColor=e2e8f0`;
+          height={520}
+          onError={(event) => {
+            event.currentTarget.onerror = null;
+            event.currentTarget.src = `https://api.dicebear.com/7.x/initials/svg?seed=${encodeURIComponent(student.name)}&backgroundColor=e2e8f0`;
           }}
         />
         <div className={styles.photoOverlay} />
-        
+
+        <div className={styles.topRow}>
+          <span className={styles.pill}>{student.branch} · {student.batch_year}</span>
+          {igHandle && (
+            <span
+              className={styles.socialIcon}
+              role="button"
+              tabIndex={0}
+              aria-label={`Open ${student.name}'s Instagram profile`}
+              onClick={(event) => {
+                event.preventDefault();
+                event.stopPropagation();
+                window.open(igLink, '_blank', 'noopener,noreferrer');
+              }}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter' || event.key === ' ') {
+                  event.preventDefault();
+                  event.stopPropagation();
+                  window.open(igLink, '_blank', 'noopener,noreferrer');
+                }
+              }}
+            >
+              <InstagramIcon />
+            </span>
+          )}
+        </div>
+
         <div className={styles.overlayContent}>
           <h3 className={styles.name}>{student.name}</h3>
-          
-          <span className={styles.pill}>
-            {student.branch} · &#39;{student.batch_year ? student.batch_year.toString().slice(-2) : ''}
-          </span>
-          
-          {igHandle && (
-            <div className={styles.socials}>
-              <div
-                onClick={(e) => {
-                  e.preventDefault();
-                  window.open(igLink, '_blank');
-                }}
-                className={styles.socialIcon}
-              >
-                <InstagramIcon />
-              </div>
-            </div>
-          )}
         </div>
       </div>
     </Link>

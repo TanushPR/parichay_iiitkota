@@ -3,6 +3,7 @@
 import { useState, useEffect, useMemo } from 'react';
 import { supabase } from '@/lib/supabase';
 import { formatImageUrl } from '@/lib/utils';
+import Skeleton from '@/components/Skeleton';
 import styles from '../page.module.css';
 
 interface Club {
@@ -165,7 +166,7 @@ export default function ClubsManager() {
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan={5} style={{ textAlign: 'center' }}>Loading...</td></tr>
+              <tr><td colSpan={5} style={{ textAlign: 'center' }}><Skeleton className="skeleton-admin-line" /></td></tr>
             ) : filteredClubs.length === 0 ? (
               <tr><td colSpan={5} style={{ textAlign: 'center' }}>No clubs found.</td></tr>
             ) : (
