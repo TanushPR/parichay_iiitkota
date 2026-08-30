@@ -1,60 +1,67 @@
 .card {
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: 20px;
-  padding: 28px 24px;
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   text-align: center;
-  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
+  gap: 0.6rem;
   height: 100%;
-  position: relative;
+  min-height: 270px;
+  padding: 1.15rem 1rem 1rem;
   overflow: hidden;
+  border-radius: 1.25rem;
+  background: transparent;
+  border: 0;
+  box-shadow: none;
+  transition: transform var(--transition-slow), box-shadow var(--transition), border-color var(--transition);
 }
 
 .card:hover {
-  transform: translateY(-6px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
-  border-color: var(--accent-light);
+  transform: translateY(-5px);
+  box-shadow: none;
 }
 
-/* Top accent bar */
+.clubInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  gap: 0.6rem;
+}
+
+.nameRow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.45rem;
+  max-width: 100%;
+}
+
 .accentBar {
   position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 3px;
-  border-radius: 20px 20px 0 0;
+  inset: 0 auto auto 0;
+  width: 100%;
+  height: 4px;
+  border-radius: var(--radius-xl) var(--radius-xl) 0 0;
   transform: scaleX(0);
-  transition: transform 0.35s cubic-bezier(0.22, 1, 0.36, 1);
   transform-origin: left;
+  transition: transform var(--transition-slow);
 }
 
 .card:hover .accentBar {
   transform: scaleX(1);
 }
 
-/* Logo */
 .logoWrap {
-  width: 72px;
-  height: 72px;
-  border-radius: 50%;
-  border: 2px solid var(--border);
+  width: 4rem;
+  height: 4rem;
+  border-radius: 1rem;
+  overflow: hidden;
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-bottom: 16px;
-  overflow: hidden;
-  transition: all 0.35s cubic-bezier(0.22, 1, 0.36, 1);
-  background: var(--bg-primary);
-}
-
-.card:hover .logoWrap {
-  transform: scale(1.08) rotate(-5deg);
-  border-color: var(--accent-light);
-  box-shadow: 0 4px 16px rgba(115, 138, 86, 0.15);
+  background: var(--accent-soft);
+  border: 1px solid rgba(95, 125, 87, 0.1);
 }
 
 .logoImg {
@@ -64,133 +71,161 @@
 }
 
 .logoFallback {
-  font-size: 28px;
+  font-family: var(--font-display);
+  font-size: 1.4rem;
+  font-weight: 800;
+}
+
+.categoryBadge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  padding: 0.24rem 0.6rem;
+  border-radius: var(--radius-full);
+  font-family: var(--font-display);
+  font-size: 0.73rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.name {
+  margin: 0;
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  color: var(--text-primary);
+}
+
+.description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  color: var(--text-secondary);
+  font-size: 0.84rem;
+  line-height: 1.5;
+  min-height: 3.8rem;
+}
+
+.footer {
   display: flex;
   align-items: center;
   justify-content: center;
-}
-
-/* Category Badge */
-.categoryBadge {
-  font-family: 'Outfit', sans-serif;
-  font-size: 10.5px;
-  font-weight: 700;
-  letter-spacing: 0.4px;
-  padding: 4px 12px;
-  border-radius: 999px;
-  text-transform: uppercase;
-  margin-bottom: 14px;
-}
-
-/* Name */
-.name {
-  font-family: 'Outfit', sans-serif;
-  font-size: 17px;
-  font-weight: 800;
-  color: var(--text-primary);
-  margin-bottom: 10px;
-  line-height: 1.3;
-}
-
-/* Description */
-.description {
-  font-size: 13.5px;
-  color: var(--text-secondary);
-  line-height: 1.6;
-  margin-bottom: 18px;
-  flex-grow: 1;
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-}
-
-/* Footer */
-.footer {
-  display: flex;
-  gap: 8px;
-  justify-content: center;
-  margin-top: auto;
+  gap: 0.65rem;
+  flex-wrap: wrap;
+  margin-top: 0.25rem;
 }
 
 .socialBtn {
-  width: 36px;
-  height: 36px;
+  width: 2.2rem;
+  height: 2.2rem;
   border-radius: 50%;
-  border: 1.5px solid var(--text-primary);
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   color: var(--text-primary);
-  text-decoration: none;
-  transition: all 0.25s ease;
+  background: rgba(223, 233, 217, 0.65);
+  border: 1px solid rgba(95, 125, 87, 0.16);
+  transition: transform var(--transition), background var(--transition), color var(--transition);
 }
 
 .socialBtn:hover {
-  background: var(--text-primary);
+  transform: translateY(-1px) scale(1.04);
+  background: var(--accent);
   color: #fff;
-  transform: scale(1.1);
 }
 
-.joinBtn {
-  height: 36px;
-  border-radius: 18px;
-  border: 1.5px solid var(--text-primary);
-  padding: 0 16px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: var(--text-primary);
-  font-family: 'Outfit', sans-serif;
-  font-size: 12px;
-  font-weight: 700;
-  text-transform: uppercase;
-  letter-spacing: 0.5px;
-  text-decoration: none;
-  transition: all 0.25s ease;
+@media (min-width: 521px) {
+  .card {
+    min-height: 270px;
+    padding: 1.15rem 1rem 1rem;
+    border: 1px solid rgba(217, 209, 195, 0.9);
+    border-radius: 1.1rem;
+    background: rgba(255, 253, 250, 0.92);
+    box-shadow: var(--shadow-sm);
+  }
+
+  .card:hover {
+    box-shadow: var(--shadow-md);
+    border-color: color-mix(in srgb, var(--card-tone) 28%, var(--border));
+  }
 }
 
-.joinBtn:hover {
-  background: var(--text-primary);
-  color: #fff;
-  transform: scale(1.05);
+@media (max-width: 768px) {
+  .card {
+    min-height: 250px;
+    padding: 1rem 0.9rem 0.9rem;
+  }
 }
 
-/* Header (legacy support) */
-.header {
-  display: flex;
-  align-items: flex-start;
-  justify-content: space-between;
-  gap: 0.5rem;
-  flex-wrap: wrap;
-}
+@media (max-width: 520px) {
+  .card {
+    min-height: 0;
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    align-items: start;
+    column-gap: 0.75rem;
+    row-gap: 0;
+    padding: 0.8rem 0 0.85rem;
+    border-radius: 0;
+    border-bottom: 1px solid rgba(95, 125, 87, 0.18);
+  }
 
-/* Tags */
-.tags {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.3rem;
-}
+  .logoWrap {
+    width: 3rem;
+    height: 3rem;
+    border-radius: 0.8rem;
+    grid-row: 1;
+  }
 
-.tag {
-  font-size: 0.7rem;
-  padding: 0.2rem 0.55rem;
-}
+  .clubInfo {
+    grid-column: 2;
+    align-items: flex-start;
+    gap: 0.25rem;
+  }
 
-/* Members */
-.members {
-  font-size: 0.82rem;
-  color: var(--text-muted);
-  font-family: 'Outfit', sans-serif;
-  font-weight: 600;
-}
+  .categoryBadge {
+    display: none;
+  }
 
-.actions {
-  display: flex;
-  gap: 0.4rem;
-  flex-wrap: wrap;
-}
+  .nameRow {
+    justify-content: flex-start;
+    gap: 0.35rem;
+  }
 
-.logo {
-  line-height: 1;
+  .categoryBadge {
+    padding: 0.2rem 0.5rem;
+    font-size: 0.64rem;
+  }
+
+  .name {
+    font-size: 0.86rem;
+    line-height: 1.15;
+  }
+
+  .description {
+    -webkit-line-clamp: 2;
+    min-height: 0;
+    font-size: 0.74rem;
+    line-height: 1.35;
+  }
+
+  .socialBtn {
+    width: 1.9rem;
+    height: 1.9rem;
+    border: 0;
+    background: transparent;
+  }
+
+  .footer {
+    justify-content: flex-start;
+    min-height: 0;
+    margin-top: 0.2rem;
+  }
+
+  .footer > span {
+    display: none;
+  }
 }

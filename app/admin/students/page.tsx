@@ -5,6 +5,7 @@ import { useSearchParams } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import { formatImageUrl } from '@/lib/utils';
 import { SupabaseStudent } from '@/components/StudentCard';
+import Skeleton from '@/components/Skeleton';
 import { BRANCHES } from '@/lib/mockData';
 import styles from '../page.module.css';
 
@@ -150,7 +151,7 @@ export default function StudentManager() {
           </thead>
           <tbody>
             {loading ? (
-              <tr><td colSpan={6} style={{ textAlign: 'center' }}>Loading...</td></tr>
+              <tr><td colSpan={6} style={{ textAlign: 'center' }}><Skeleton className="skeleton-admin-line" /></td></tr>
             ) : filteredStudents.length === 0 ? (
               <tr><td colSpan={6} style={{ textAlign: 'center' }}>No students found.</td></tr>
             ) : (

@@ -1,0 +1,123 @@
+.nameRow {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.25rem;
+}
+
+.name {
+  margin: 0;
+  color: #dfe9d9;
+  font-family: var(--font-display);
+  font-size: 1.15rem;
+  font-weight: 800;
+  line-height: 1.1;
+}
+
+.instagramIcon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #ff5c8a;
+  filter: drop-shadow(0 1px 5px rgba(0, 0, 0, 0.35));
+  transition: color var(--transition), transform var(--transition);
+}
+
+.instagramIcon:hover {
+  color: #ffb14e;
+  transform: scale(1.12);
+}
+
+.cardDetails {
+  padding: 0.7rem 0.85rem 0.8rem;
+  background: rgba(255, 253, 250, 0.9);
+}
+
+.bio {
+  margin: 0;
+  color: var(--text-secondary);
+  font-size: 0.82rem;
+  line-height: 1.48;
+}
+
+.mobileInfo {
+  display: none;
+}
+
+@media (max-width: 520px) {
+  .memberCard {
+    display: grid;
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 0.85rem;
+    align-items: center;
+    padding: 0.9rem 0;
+    border: 0;
+    border-radius: 0;
+    background: transparent;
+    box-shadow: none;
+    border-bottom: 1px solid rgba(217, 209, 195, 0.7);
+  }
+
+  .memberCard > .photoBlock {
+    width: 92px;
+    height: 92px;
+    aspect-ratio: 1;
+    border-radius: 50%;
+  }
+
+  .memberCard > .photoBlock > .photoOverlayContent,
+  .memberCard > .cardDetails {
+    display: none !important;
+  }
+
+  .mobileInfo { display: block; min-width: 0; }
+
+  .mobileNameRow {
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .mobileName {
+    margin: 0;
+    color: var(--text-primary);
+    font-family: var(--font-display);
+    font-size: 1rem;
+    font-weight: 800;
+    line-height: 1.15;
+  }
+
+  .mobileInstagram { display: inline-flex; color: #ed4778; }
+
+  .mobileRole {
+    margin-top: 0.18rem;
+    overflow: hidden;
+    color: var(--text-primary);
+    font-size: 0.72rem;
+    font-weight: 600;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .mobileBio {
+    margin-top: 0.45rem;
+    color: var(--text-secondary);
+    font-size: 0.76rem;
+    line-height: 1.4;
+  }
+
+}
+
+@media (max-width: 520px) {
+  .name {
+    font-size: 1rem;
+  }
+
+  .cardDetails {
+    padding: 0.7rem 0.75rem;
+  }
+
+  .bio {
+    font-size: 0.78rem;
+  }
+}

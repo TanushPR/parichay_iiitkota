@@ -1,381 +1,302 @@
 .page {
   min-height: 100vh;
-  padding-bottom: 5rem;
+  padding-bottom: 3.5rem;
 }
 
 .backLink {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
-  font-family: 'Outfit', sans-serif;
-  font-weight: 600;
-  font-size: 0.9rem;
+  margin: 1.2rem 0;
+  padding: 0.55rem 1rem;
+  border-radius: 1.15rem;
+  border: 1px solid rgba(217, 209, 195, 0.95);
+  background: rgba(255, 253, 250, 0.82);
   color: var(--text-secondary);
-  text-decoration: none;
-  margin: 2rem 0;
-  padding: 0.5rem 1rem;
+  font-family: var(--font-display);
+  font-size: 0.9rem;
+  font-weight: 700;
+}
+
+.profileToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+}
+
+.profileSearch {
+  display: flex;
+  width: min(100%, 28rem);
+  margin: 1.2rem 0;
+  padding: 0.25rem;
+  border: 1px solid rgba(217, 209, 195, 0.9);
+  border-radius: 0.85rem;
+  background: rgba(255, 253, 250, 0.78);
+}
+
+.profileSearch:focus-within {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-faint);
+}
+
+.profileSearchInput {
+  min-width: 0;
+  flex: 1;
+  padding: 0.5rem 0.8rem;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--text-primary);
+  font: inherit;
+  font-size: 0.82rem;
+}
+
+.profileSearchButton {
+  padding: 0.5rem 0.9rem;
+  border: 0;
   border-radius: var(--radius-full);
-  border: 1.5px solid var(--border);
-  background: var(--bg-card);
-  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  background: var(--accent);
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
 }
 
 .backLink:hover {
-  color: var(--accent);
-  border-color: var(--accent-light);
-  background: var(--accent-pale);
-  transform: translateX(-6px);
-  box-shadow: var(--shadow-sm);
+  color: var(--accent-strong);
+  background: var(--accent-soft);
+  transform: translateX(-3px);
 }
 
-/* Profile Hero */
 .profileHero {
-  position: relative;
-  padding: 3rem;
-  background-color: #F3F0E6;
-  border-radius: 2rem;
-  max-width: 1200px;
-  margin: 0 auto;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.05);
-  overflow: hidden;
+  padding: 0;
+  background: transparent;
 }
 
-.bgAccent {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 280px;
-  background: linear-gradient(180deg, rgba(178, 201, 173, 0.3) 0%, transparent 100%);
-  pointer-events: none;
-}
-
-/* Dot pattern behind photo */
-.profileHero::before {
-  content: '';
-  position: absolute;
-  top: 2rem;
-  left: 2rem;
-  width: 160px;
-  height: 200px;
-  background-image: radial-gradient(circle, var(--accent-light) 1.5px, transparent 1.5px);
-  background-size: 16px 16px;
-  opacity: 0.3;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* Layout */
 .profileLayout {
   display: grid;
-  grid-template-columns: 320px 1fr;
-  gap: 3.5rem;
+  grid-template-columns: minmax(240px, 280px) minmax(0, 1fr);
+  gap: 1.35rem;
   align-items: start;
-  position: relative;
-  z-index: 1;
 }
 
-/* Photo Column */
 .photoCol {
-  display: flex;
-  flex-direction: column;
-  gap: 1.5rem;
   position: sticky;
   top: 6rem;
 }
 
 .photoWrap {
   position: relative;
-  border-radius: var(--radius-xl);
   overflow: hidden;
-  box-shadow: var(--shadow-lg);
-  aspect-ratio: 3/4;
-  background: linear-gradient(135deg, var(--accent-pale), var(--accent-light));
-  transition: all 0.4s ease;
-}
-
-.photoWrap:hover {
-  box-shadow: 0 16px 48px rgba(115, 138, 86, 0.2);
+  border-radius: 1.4rem;
+  aspect-ratio: 3 / 4;
+  background: linear-gradient(180deg, var(--accent-soft), #f8f4ec);
 }
 
 .photo {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  display: block;
-  transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
-.photoWrap:hover .photo {
-  transform: scale(1.03);
 }
 
 .photoRing {
   position: absolute;
-  inset: -1px;
-  border-radius: var(--radius-xl);
-  border: 3px solid var(--accent-light);
+  inset: 0;
+  border: 1px solid rgba(95, 125, 87, 0.24);
+  border-radius: inherit;
   pointer-events: none;
-  opacity: 0.5;
-  transition: opacity 0.3s ease;
 }
 
-.photoWrap:hover .photoRing {
-  opacity: 0.8;
-}
-
-/* Info Column */
 .infoCol {
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  padding-top: 1rem;
+  display: grid;
+  gap: 0.8rem;
+  padding: 0.25rem 0;
 }
 
 .name {
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  font-weight: 900;
-  color: var(--text-primary);
-  line-height: 1.1;
-  letter-spacing: -0.03em;
-  margin-bottom: 0.5rem;
+  font-size: clamp(2rem, 3.5vw, 3.2rem);
+  line-height: 0.98;
 }
 
-.displayName {
-  font-size: 0.95rem;
-  color: var(--text-muted);
-  margin-top: -1.2rem;
-}
-
-/* Info Rows */
 .infoRows {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  margin-bottom: 1rem;
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.6rem;
 }
 
 .infoRow {
   display: flex;
-  gap: 10px;
-  align-items: flex-start;
-  padding: 12px 0;
-  border-bottom: 1px solid var(--accent-pale);
-  transition: all 0.2s ease;
-}
-
-.infoRow:hover {
-  padding-left: 6px;
+  gap: 0.45rem;
+  align-items: center;
+  min-width: 0;
+  padding: 0.65rem 0.7rem;
+  border: 1px solid rgba(217, 209, 195, 0.62);
+  border-radius: 0.85rem;
+  background: rgba(255, 253, 250, 0.55);
 }
 
 .infoIcon {
-  color: var(--accent);
-  margin-top: 2px;
+  display: inline-flex;
+  width: 2rem;
+  height: 2rem;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background: var(--accent-soft);
+  color: var(--accent-strong);
   flex-shrink: 0;
-  transition: all 0.3s ease;
-}
-
-.infoRow:hover .infoIcon {
-  color: var(--accent-dark);
-  transform: scale(1.15);
 }
 
 .infoLabel {
-  font-size: 10px;
+  font-size: 0.68rem;
   font-weight: 700;
-  color: var(--text-muted);
+  letter-spacing: 0.12em;
   text-transform: uppercase;
-  letter-spacing: 0.4px;
+  color: var(--text-muted);
+  margin-bottom: 0.2rem;
 }
 
 .infoValue {
-  font-size: 14px;
+  font-size: 0.9rem;
   color: var(--text-primary);
-  font-weight: 700;
+  font-weight: 600;
 }
 
-/* Bio */
-.bioSection {}
-.bioTitle {
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.82rem;
+.bioSection,
+.clubsSection {
+  display: grid;
+  gap: 0.65rem;
+}
+
+.bioTitle,
+.clubsTitle {
+  font-family: var(--font-display);
+  font-size: 0.85rem;
   font-weight: 700;
-  letter-spacing: 0.1em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   color: var(--accent);
-  margin-bottom: 0.75rem;
 }
 
 .bio {
-  font-size: 1.05rem;
-  line-height: 1.75;
+  font-size: 0.9rem;
+  line-height: 1.6;
   color: var(--text-secondary);
-}
-
-/* Fun Fact */
-.funFact {
-  display: flex;
-  align-items: flex-start;
-  gap: 1rem;
-  background: var(--accent-pale);
-  border: 1px solid var(--accent-light);
-  border-radius: var(--radius-lg);
-  padding: 1.1rem 1.25rem;
-  transition: all 0.3s ease;
-}
-
-.funFact:hover {
-  box-shadow: var(--shadow-sm);
-  transform: translateY(-2px);
-}
-
-.funFactIcon { font-size: 1.5rem; flex-shrink: 0; margin-top: 0.1rem; }
-
-.funFactLabel {
-  display: block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  color: var(--accent-dark);
-  margin-bottom: 0.3rem;
-  font-family: 'Outfit', sans-serif;
-}
-
-.funFactText {
-  font-size: 0.95rem;
-  color: var(--text-primary);
-  line-height: 1.55;
-  font-style: italic;
-}
-
-/* Clubs */
-.clubsSection {}
-.clubsTitle {
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.82rem;
-  font-weight: 700;
-  letter-spacing: 0.1em;
-  text-transform: uppercase;
-  color: var(--accent);
-  margin-bottom: 0.75rem;
+  max-width: 64ch;
 }
 
 .clubPill {
-  background-color: var(--accent-pale);
-  color: var(--accent-dark);
-  border: 1px solid rgba(43, 58, 44, 0.15);
-  padding: 0.4rem 0.9rem;
-  border-radius: 50px;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-full);
+  background: rgba(223, 233, 217, 0.72);
+  border: 1px solid rgba(95, 125, 87, 0.12);
+  color: var(--accent-strong);
   font-size: 0.85rem;
-  font-weight: 600;
-  display: inline-block;
-  transition: all 0.25s ease;
-  cursor: default;
+  font-weight: 700;
 }
 
-.clubPill:hover {
-  transform: scale(1.05);
-  box-shadow: var(--shadow-sm);
-  background: var(--accent-light);
-}
-
-/* Actions */
 .actions {
   display: flex;
-  gap: 1rem;
+  gap: 0.8rem;
   flex-wrap: wrap;
-  padding-top: 0.5rem;
+  padding-top: 0.25rem;
 }
 
-/* Similar */
-.similar {
-  padding: 3rem 0;
-  border-top: 1px solid var(--border);
-  background: var(--bg-card);
-}
-
-.similarTitle {
-  font-family: 'Outfit', sans-serif;
-  font-size: 1.3rem;
-  font-weight: 800;
-  color: var(--text-primary);
-  margin-bottom: 1.5rem;
-}
-
-.similarGrid {
-  display: flex;
-  flex-direction: column;
-  gap: 0.75rem;
-}
-
-.similarCard {
-  display: flex;
+:global(.profile-action) {
+  display: inline-flex;
+  width: auto;
+  min-height: 2.65rem;
   align-items: center;
-  gap: 1rem;
-  padding: 0.9rem 1.1rem;
-  background: #fff;
-  border: 1px solid var(--border);
-  border-radius: var(--radius-lg);
-  text-decoration: none;
-  transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
+  justify-content: center;
+  gap: 0.42rem;
+  padding: 0.55rem 0.9rem;
+  font-size: 0.84rem;
 }
 
-.similarCard:hover {
-  transform: translateX(6px);
-  border-color: var(--accent-light);
-  box-shadow: var(--shadow-md);
+@media (max-width: 920px) {
+  .profileLayout {
+    grid-template-columns: 1fr;
+  }
+
+  .photoCol {
+    position: static;
+    max-width: 340px;
+  }
+
+  .infoRows {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
 }
 
-.similarPhoto {
-  width: 44px;
-  height: 44px;
-  border-radius: 50%;
-  object-fit: cover;
-  border: 2px solid var(--accent-light);
-  background: var(--accent-pale);
-}
+@media (max-width: 640px) {
+  .profileToolbar {
+    gap: 0.5rem;
+  }
 
-.similarInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 0.1rem;
-  flex: 1;
-}
+  .backLink {
+    flex: 0 0 auto;
+    width: 2.65rem;
+    height: 2.65rem;
+    justify-content: center;
+    padding: 0;
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
 
-.similarName {
-  font-family: 'Outfit', sans-serif;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: var(--text-primary);
-}
+  .backLink span {
+    display: none;
+  }
 
-.similarMeta {
-  font-size: 0.8rem;
-  color: var(--text-muted);
-}
+  .profileSearch {
+    min-width: 0;
+    margin-left: 0;
+  }
 
-.similarArrow {
-  color: var(--accent);
-  font-size: 1.1rem;
-  opacity: 0;
-  transform: translateX(-4px);
-  transition: all 0.25s ease;
-}
+  .profileSearchButton {
+    padding-inline: 0.7rem;
+  }
 
-.similarCard:hover .similarArrow {
-  opacity: 1;
-  transform: translateX(0);
-}
+  .profileHero {
+    padding: 0;
+  }
 
-@media (max-width: 900px) {
-  .profileLayout { grid-template-columns: 240px 1fr; gap: 2.5rem; }
-}
+  .infoRows {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 0.35rem;
+  }
 
-@media (max-width: 768px) {
-  .profileLayout { grid-template-columns: 1fr; }
-  .photoCol { position: static; }
-  .photoWrap { max-width: 300px; margin: 0 auto; }
-  .profileHero { padding: 2rem; }
-  .profileHero::before { display: none; }
+  .infoRow {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.35rem;
+    padding: 0.55rem 0.45rem;
+  }
+
+  .infoIcon {
+    width: 1.7rem;
+    height: 1.7rem;
+  }
+
+  .infoLabel {
+    font-size: 0.58rem;
+    letter-spacing: 0.06em;
+  }
+
+  .infoValue {
+    font-size: 0.78rem;
+    white-space: nowrap;
+  }
+
+  .actions {
+    gap: 0.55rem;
+  }
+
+  :global(.profile-action) {
+    flex: 1 1 0;
+    min-width: 0;
+    padding-inline: 0.65rem;
+    font-size: 0.78rem;
+  }
 }

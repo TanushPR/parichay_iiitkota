@@ -1,8 +1,9 @@
-/* ─── Hero ──────────────────────────────────────────── */
+/* â”€â”€â”€ Hero â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .hero {
   position: relative;
   overflow: hidden;
-  padding: 5rem 0 0;
+  margin-top: -80px;
+  padding: calc(5rem + 80px) 0 0;
   background: var(--bg-primary);
   min-height: 92vh;
   display: flex;
@@ -183,16 +184,25 @@
   justify-content: center;
 }
 
+.shortButtonLabel {
+  display: none;
+}
+
 @media (max-width: 768px) {
   .heroBtns {
-    flex-direction: column;
+    flex-direction: row;
     width: 100%;
+    gap: 0.65rem;
   }
   .heroBtns a {
-    width: 100%;
+    flex: 1;
+    width: auto;
     justify-content: center;
     text-align: center;
   }
+
+  .fullButtonLabel { display: none; }
+  .shortButtonLabel { display: inline; }
 }
 
 .heroBadge {
@@ -262,7 +272,7 @@
   }
 }
 
-/* ─── Scroll Down Indicator ──────────────────────────────────── */
+/* â”€â”€â”€ Scroll Down Indicator â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .scrollIndicator {
   position: absolute;
   bottom: 2rem;
@@ -314,7 +324,7 @@
   to { opacity: 1; }
 }
 
-/* ─── Stats Section ──────────────────────────────────────────── */
+/* â”€â”€â”€ Stats Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .statsSection {
   position: relative;
   z-index: 2;
@@ -391,11 +401,23 @@
   align-items: flex-end;
   justify-content: space-between;
   gap: 2rem;
-  margin-bottom: 2.5rem;
+  margin-bottom: 1.35rem;
   flex-wrap: wrap;
 }
 
-/* ─── Team Section ───────────────────────────────────────────── */
+.showMoreLink {
+  flex: 0 0 auto;
+  color: var(--accent-strong);
+  font-family: var(--font-display);
+  font-size: 0.82rem;
+  font-weight: 700;
+}
+
+.showMoreLink:hover {
+  color: var(--accent);
+}
+
+/* â”€â”€â”€ Team Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .teamSection { background: var(--bg-primary); }
 
 .teamGrid {
@@ -424,8 +446,9 @@
   width: 300px;
 }
 
-/* ─── Clubs Section ──────────────────────────────────────────── */
+/* â”€â”€â”€ Clubs Section â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 .clubsSection {
+  padding: 2.5rem 0 2.75rem;
   background: var(--bg-card);
   border-top: 1px solid var(--border);
 }
@@ -440,9 +463,9 @@
   display: flex;
   align-items: center;
   gap: 0.85rem;
-  padding: 1rem 1.2rem;
+  padding: 0.8rem 1rem;
   background: #fff;
-  border: 1px solid var(--border);
+  border: 0;
   border-radius: var(--radius-lg);
   transition: all 0.3s cubic-bezier(0.22, 1, 0.36, 1);
   cursor: pointer;
@@ -515,6 +538,18 @@
   color: var(--text-muted);
 }
 
+.clubSocial {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 auto;
+  color: #e64072;
+}
+
+.clubSocial:hover {
+  color: #b51f50;
+}
+
 .clubArrow {
   font-size: 1rem;
   color: var(--text-muted);
@@ -530,14 +565,14 @@
   color: var(--accent);
 }
 
-/* ─── Responsive ─────────────────────────────────────────────── */
+/* â”€â”€â”€ Responsive â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 @media (max-width: 1024px) {
   .teamGrid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
   .teamGrid > *:hover > div { width: 320px; }
 }
 
 @media (max-width: 768px) {
-  .hero { min-height: 85vh; }
+  .hero { min-height: 100svh; }
   .heroInner { grid-template-columns: 1fr; }
   .heroVisual { display: none; }
   .statsBar { grid-template-columns: repeat(2, 1fr); }
@@ -572,6 +607,42 @@
 }
 
 @media (max-width: 480px) {
+  .heroBtns {
+    width: auto;
+    gap: 0.5rem;
+  }
+
+  .heroBtns a {
+    flex: 0 1 auto;
+    min-width: 0;
+    padding: 0.5rem 1.05rem;
+    font-size: 0.82rem;
+  }
+
+  .clubsSection {
+    padding: 1.35rem 0 1.5rem;
+  }
+
+  .clubsSection .sectionHead {
+    gap: 0.7rem;
+    margin-bottom: 0.9rem;
+  }
+
+  .clubsSection .sectionHead h2 {
+    font-size: 1.7rem;
+  }
+
+  .clubsSection .sectionHead p {
+    font-size: 0.88rem;
+    line-height: 1.45;
+  }
+
+  .clubsSection .sectionHead .btn {
+    min-height: 2.35rem;
+    padding: 0.45rem 0.75rem;
+    font-size: 0.78rem;
+  }
+
   .statsBar { 
     grid-template-columns: repeat(2, 1fr); 
     border-radius: var(--radius-lg); 
@@ -588,7 +659,31 @@
   .statEmoji {
     font-size: 1.15rem;
   }
-  .clubsGrid { grid-template-columns: 1fr; }
+  .clubsGrid { grid-template-columns: 1fr; gap: 0.45rem; }
+
+  .clubPreviewCard {
+    gap: 0.65rem;
+    min-height: 4.25rem;
+    padding: 0.55rem 0.7rem;
+    border-radius: 0.85rem;
+  }
+
+  .clubLogoWrap {
+    width: 38px;
+    height: 38px;
+    border-radius: 9px;
+  }
+
+  .clubEmoji { font-size: 1.3rem; }
+
+  .clubPreviewName {
+    font-size: 0.82rem;
+  }
+
+  .clubPreviewMeta {
+    font-size: 0.7rem;
+  }
+
   .teamGrid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 0.5rem; }
   .teamGrid > *:hover > div { width: 100%; }
 }

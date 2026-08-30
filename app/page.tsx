@@ -1,13 +1,14 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
+import { FaInstagram } from 'react-icons/fa';
 import TeamSectionInteractive from '@/components/TeamSectionInteractive';
 import { formatImageUrl } from '@/lib/utils';
 import styles from './page.module.css';
 
 export const metadata: Metadata = {
-  title: 'Home — Meet the Juniors',
-  description: 'Discover our college\'s junior batch. Search profiles and explore clubs — all in one place.',
+  title: 'Home - Meet the Juniors',
+  description: 'Discover our college\'s junior batch. Search profiles and explore clubs - all in one place.',
 };
 
 export const revalidate = 60;
@@ -40,11 +41,11 @@ export default async function HomePage() {
   }
 
   const heroTitle = siteContent['home_hero_title'] || 'Meet the Class of 2026';
-  const heroSubtitle = siteContent['home_hero_subtitle'] || 'Parichay is your one-stop hub to discover fellow students and explore clubs and societies — all beautifully organised in one place. 🌱';
+  const heroSubtitle = siteContent['home_hero_subtitle'] || 'Parichay is your one-stop hub to discover fellow students and explore clubs and societies - all beautifully organised in one place. ';
 
   return (
     <>
-      {/* ─── Hero ──────────────────────────────────── */}
+      {/* â”€â”€â”€ Hero â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className={styles.hero}>
         
         {/* Decorative Background */}
@@ -94,31 +95,26 @@ export default async function HomePage() {
 
             <div className={`${styles.heroBtns} animate-fadeInUp delay-400`}>
               <Link href="/directory" className="btn btn-primary btn-lg">
-                Explore Directory →
+                <span className={styles.fullButtonLabel}>Explore Directory &rarr;</span>
+                <span className={styles.shortButtonLabel}>Directory</span>
               </Link>
               <Link href="/clubs" className="btn btn-outline btn-lg">
-                Explore Clubs
+                <span className={styles.fullButtonLabel}>Explore Clubs</span>
+                <span className={styles.shortButtonLabel}>Clubs</span>
               </Link>
             </div>
           </div>
         </div>
 
-        {/* Scroll Down Indicator */}
-        <div className={styles.scrollIndicator}>
-          <span className={styles.scrollText}>Scroll</span>
-          <div className={styles.scrollLine}>
-            <div className={styles.scrollDot} />
-          </div>
-        </div>
       </section>
 
 
-      {/* ─── Our Team ─────────────────────────────── */}
+      {/* â”€â”€â”€ Our Team â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className={`section ${styles.teamSection}`}>
         <div className="container">
           <div className={styles.sectionHead}>
             <div>
-              <p className="section-label">👥 Our Team</p>
+              <p className="section-label"> Our Team</p>
               <h2 className="section-title">Parichay Team 2026</h2>
               <p className="section-desc">
                 A dedicated team of students managing design, development, data, and social media.
@@ -130,19 +126,18 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* ─── Clubs Preview ─────────────────────────── */}
+      {/* â”€â”€â”€ Clubs Preview â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
       <section className={`section ${styles.clubsSection}`}>
         <div className="container">
           <div className={styles.sectionHead}>
             <div>
-              <p className="section-label">🏆 Clubs Hub</p>
               <h2 className="section-title">Find Your Tribe</h2>
               <p className="section-desc">
-                From code to Carnatic music, robotics to dance — there&apos;s a society for every passion.
+                From code to Carnatic music, robotics to dance &mdash; there&apos;s a society for every passion.
               </p>
             </div>
-            <Link href="/clubs" className="btn btn-secondary">
-              All Clubs →
+            <Link href="/clubs" className={styles.showMoreLink}>
+              Show more <span aria-hidden="true">&rarr;</span>
             </Link>
           </div>
 
@@ -162,14 +157,25 @@ export default async function HomePage() {
                       style={{ width: '100%', height: '100%', objectFit: 'cover' }}
                     />
                   ) : (
-                    <span className={styles.clubEmoji}>🏆</span>
+                    <span className={styles.clubEmoji}></span>
                   )}
                 </div>
                 <div className={styles.clubPreviewInfo}>
                   <strong className={styles.clubPreviewName}>{club.name}</strong>
                   <span className={styles.clubPreviewMeta}>{club.category || 'General'}</span>
                 </div>
-                <span className={styles.clubArrow}>→</span>
+                {(club.instagram_handle || club.social_link) && (
+                  <a
+                    href={club.instagram_handle?.startsWith('http') ? club.instagram_handle : `https://instagram.com/${club.instagram_handle || club.social_link}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className={styles.clubSocial}
+                    aria-label={`Open ${club.name} social profile`}
+                  >
+                    <FaInstagram size={15} aria-hidden="true" />
+                  </a>
+                )}
+                <span className={styles.clubArrow}>&rarr;</span>
               </div>
             ))}
           </div>

@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { supabase } from '@/lib/supabase';
+import Skeleton from '@/components/Skeleton';
 import styles from '../page.module.css';
 
 export default function GlobalCMS() {
@@ -66,7 +67,7 @@ export default function GlobalCMS() {
       </p>
 
       {loading ? (
-        <p>Loading content...</p>
+        <Skeleton className="skeleton-search" />
       ) : (
         <form onSubmit={handleSave} style={{ maxWidth: '800px', backgroundColor: 'var(--bg-secondary)', padding: '2rem', borderRadius: 'var(--radius-lg)', border: '1px solid var(--border)' }}>
           

@@ -1,6 +1,7 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { Share2 } from 'lucide-react';
 
 interface ShareButtonProps {
   studentId: string;
@@ -11,17 +12,30 @@ interface ShareButtonProps {
 export default function ShareButton({ studentId, studentName, bio }: ShareButtonProps) {
   const [showToast, setShowToast] = useState(false);
 
-  const handleShare = () => {
+  useEffect(() => {
+    if (!showToast) return undefined;
+
+    const timer = window.setTimeout(() => setShowToast(false), 2500);
+    return () => window.clearTimeout(timer);
+  }, [showToast]);
+
+  const handleShare = async () => {
     if (typeof navigator !== 'undefined' && navigator.share) {
-      navigator.share({
-        title: studentName,
-        text: bio,
-        url: window.location.href,
-      }).catch((e) => console.log('Error sharing', e));
-    } else {
-      navigator.clipboard.writeText(window.location.href);
+      try {
+        await navigator.share({
+          title: studentName,
+          text: bio,
+          url: window.location.href,
+        });
+        return;
+      } catch (error) {
+        console.log('Error sharing', error);
+      }
+    }
+
+    if (navigator.clipboard) {
+      await navigator.clipboard.writeText(window.location.href);
       setShowToast(true);
-      setTimeout(() => setShowToast(false), 3000);
     }
   };
 
@@ -29,30 +43,33 @@ export default function ShareButton({ studentId, studentName, bio }: ShareButton
     <>
       <button
         id={`share-btn-${studentId}`}
-        className="btn btn-outline btn-lg"
+        className="btn btn-outline btn-lg profile-action"
         onClick={handleShare}
+        type="button"
       >
-        🔗 Share Profile
+        <Share2 size={16} aria-hidden="true" />
+        <span>Share</span>
       </button>
 
       {showToast && (
-        <div style={{
-          position: 'fixed',
-          bottom: '2rem',
-          left: '50%',
-          transform: 'translateX(-50%)',
-          backgroundColor: '#333',
-          color: '#fff',
-          padding: '0.75rem 1.5rem',
-          borderRadius: '50px',
-          boxShadow: '0 4px 12px rgba(0,0,0,0.15)',
-          zIndex: 9999,
-          animation: 'fadeInUp 0.3s ease',
-          fontFamily: 'var(--font-inter)',
-          fontSize: '0.9rem',
-          fontWeight: 500
-        }}>
-          Profile link copied to clipboard!
+        <div
+          style={{
+            position: 'fixed',
+            left: '50%',
+            bottom: '1.5rem',
+            transform: 'translateX(-50%)',
+            padding: '0.8rem 1.1rem',
+            borderRadius: '999px',
+            background: '#18241d',
+            color: '#fff',
+            boxShadow: '0 18px 40px rgba(19, 33, 26, 0.22)',
+            zIndex: 9999,
+            fontFamily: 'var(--font-body)',
+            fontSize: '0.92rem',
+            fontWeight: 600,
+          }}
+        >
+          Profile link copied to clipboard.
         </div>
       )}
     </>

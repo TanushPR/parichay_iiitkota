@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { supabase } from '@/lib/supabase';
+import Skeleton from '@/components/Skeleton';
 import styles from './page.module.css';
 
 export default function AdminDashboard() {
@@ -42,19 +43,19 @@ export default function AdminDashboard() {
 
       <div className={styles.statsGrid}>
         <div className={styles.statCard}>
-          <div className={styles.statNumber}>{loading ? '...' : stats.total}</div>
+          <div className={styles.statNumber}>{loading ? <Skeleton className="skeleton-admin-line" /> : stats.total}</div>
           <div className={styles.statLabel}>Total Juniors</div>
         </div>
         <div className={styles.statCard}>
-          <div className={styles.statNumber}>{loading ? '...' : stats.pending}</div>
+          <div className={styles.statNumber}>{loading ? <Skeleton className="skeleton-admin-line" /> : stats.pending}</div>
           <div className={styles.statLabel}>Pending Verification</div>
         </div>
         <div className={styles.statCard}>
-          <div className={styles.statNumber}>{loading ? '...' : stats.designed}</div>
+          <div className={styles.statNumber}>{loading ? <Skeleton className="skeleton-admin-line" /> : stats.designed}</div>
           <div className={styles.statLabel}>Designed Grids</div>
         </div>
         <div className={styles.statCard}>
-          <div className={styles.statNumber}>{loading ? '...' : stats.posted}</div>
+          <div className={styles.statNumber}>{loading ? <Skeleton className="skeleton-admin-line" /> : stats.posted}</div>
           <div className={styles.statLabel}>Posted Grids</div>
         </div>
       </div>
